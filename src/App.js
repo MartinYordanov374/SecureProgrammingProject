@@ -7,6 +7,7 @@ import Post from './Components/Post';
 import Register from './Components/Register';
 import Error from './Components/Error';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Profile from './Components/Profile';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route Component={Home} path='/'/>
         <Route Component={Login} path='/login'/>
         <Route Component={Post} path='/post/:id'/>
+        <Route Component={Profile} path='/Profile/:id'/>
         <Route Component={Register} path='/register'/>
         <Route Component={Error} path='/*'/>
       </Routes>
