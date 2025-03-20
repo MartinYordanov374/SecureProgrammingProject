@@ -1,6 +1,6 @@
 import React from 'react'
 import {Container, Card} from 'react-bootstrap'
-import '../Styles/PostStyles.css'
+import '../Styles/Post/PostStyles.css'
 export default function Post() {
   return (
       <Container className='postContainer'>
