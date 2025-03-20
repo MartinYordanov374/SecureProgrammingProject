@@ -1,6 +1,9 @@
 import React from 'react'
 import {NavItem, Navbar, NavLink, NavbarBrand, Nav} from 'react-bootstrap'
 export default function NavigationBar() {
+  const handleLogOut = () => {
+    console.log('logging out')
+  }
   return (
     <Navbar>
       <NavbarBrand href='/'> SEPRO </NavbarBrand>
@@ -16,6 +19,9 @@ export default function NavigationBar() {
         </NavItem>
         <NavItem>
             <NavLink href='/Profile/:id'> My profile</NavLink>
+        </NavItem>
+        <NavItem>
+            <NavLink onClick={() => {handleLogOut()}}> Log out</NavLink>
         </NavItem>
       </Nav>
     </Navbar>

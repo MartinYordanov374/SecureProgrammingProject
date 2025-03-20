@@ -9,8 +9,9 @@ export default function Profile() {
     <div>
         <NavigationBar/>
         <Container>
-            <p>My profile</p>
             
+            <p>My profile</p>
+            <Button className='btn-danger'>  Delete my profile </Button>
             {userPosts.map(() => {
                 return( <Post></Post>)
             })}
