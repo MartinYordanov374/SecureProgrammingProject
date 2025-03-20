@@ -6,6 +6,8 @@ import Login from './Components/Login';
 import Post from './Components/Post';
 import Register from './Components/Register';
 import Error from './Components/Error';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   return (
    <BrowserRouter>

@@ -1,7 +1,11 @@
 import React from 'react'
+import NavigationBar from './Navbar.jsx'
 
 export default function Post() {
   return (
-    <div>Post</div>
+    <div>
+      <NavigationBar/>
+      Post
+    </div>
   )
 }

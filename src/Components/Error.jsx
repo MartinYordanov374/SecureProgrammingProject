@@ -1,7 +1,11 @@
 import React from 'react'
+import NavigationBar from './Navbar.jsx'
 
 export default function Error() {
   return (
-    <div>Error</div>
+    <div>
+       <NavigationBar/>
+       Error
+    </div>
   )
 }
