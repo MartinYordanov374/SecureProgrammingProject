@@ -1,11 +1,22 @@
 import React from 'react'
-import NavigationBar from './Navbar.jsx'
-
+import {Container, Card} from 'react-bootstrap'
+import '../Styles/PostStyles.css'
 export default function Post() {
   return (
-    <div>
-      <NavigationBar/>
-      Post
-    </div>
+      <Container className='postContainer'>
+        <Card>
+          <Card.Header>
+            Post Owner
+          </Card.Header>
+          <Card.Body>
+            Post body
+          </Card.Body>
+          <Card.Footer>
+            <div>Like</div>
+            <div>Comments</div>
+            <div>Share</div>
+          </Card.Footer>
+        </Card>
+      </Container>
   )
 }
