@@ -1,4 +1,6 @@
 const User = require('../Mongo/Schemas/User')
+const bcrypt = require('bcrypt')
+const SALT_ROUNDS = 10
 
 async function CreateUser(username, password){
     let UserObject = await IfUserExists(username)
@@ -8,10 +10,11 @@ async function CreateUser(username, password){
     }
     else
     {
+        const hashedPass = await bcrypt.hash(password, SALT_ROUNDS)
         try{
             let NewUser = await User({
                 username: username,
-                password: password
+                password: hashedPass
             })
         
             await NewUser.save()
@@ -32,7 +35,7 @@ async function LoginUser(username, password)
     if(UserObject.doesUserExist)
     {
         //TODO: Check if entered password matches the user password in the db
-        if(password == UserObject.targetUser[0].password)
+        if(await bcrypt.compare(password, UserObject.targetUser[0].password))
         {
             return {status: 200, message: 'Login successful.'}
         }
