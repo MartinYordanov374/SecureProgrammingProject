@@ -52,8 +52,25 @@ async function LoginUser(username, password)
     }
 }
 
-async function DeleteUser(){
-    return {status: 501, message: 'Deleting user is not implemented yet.'}
+async function DeleteUser(username){
+    let UserObject = await IfUserExists(username)
+    if(UserObject.doesUserExist)
+    {
+        try{
+            await User.findOneAndDelete({username: username})
+            return {status: 200, message: 'User deleted successfully.'}
+        }
+        catch(err)
+        {
+            return {status: 500, message: 'Internal server error. Something went wrong when trying to delete that user.'}
+        }
+        
+    }
+    else
+    {
+        return {status: 404, message: 'The user you are trying to delete does not exist.'}
+    }
+   
 }
 
 async function IfUserExists(username){
