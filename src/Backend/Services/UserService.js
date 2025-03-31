@@ -24,8 +24,6 @@ async function CreateUser(username, password){
         {
             return {status: 500, message: 'Internal server error: Something went wrong with the fetching. Check database connection.'}
         }
-       
-        
     }
 }
 
@@ -64,7 +62,6 @@ async function DeleteUser(username){
         {
             return {status: 500, message: 'Internal server error. Something went wrong when trying to delete that user.'}
         }
-        
     }
     else
     {
