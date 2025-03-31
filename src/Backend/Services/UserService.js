@@ -1,5 +1,13 @@
-async function CreateUser(){
+const User = require('../Mongo/Schemas/User')
+
+async function CreateUser(username, password){
     console.log('creating user')
+    let NewUser = await User({
+        username: username,
+        password: password
+    })
+
+    await NewUser.save()
 }
 
 async function DeleteUser(){
