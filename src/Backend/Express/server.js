@@ -15,15 +15,9 @@ app.post('/login', async (req,res)  => {
 app.post('/register', async (req,res) => {
     let username = req.body.username
     let password = req.body.password
+    let result = await CreateUser(username, password)
 
-    await CreateUser(username, password).then((res) => {
-        console.log(res)
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-
-    res.status(200).send({username, password})
+    res.status(result.status).send({message: result.message})
 })
 
 app.listen(APP_PORT, async (res) => {
