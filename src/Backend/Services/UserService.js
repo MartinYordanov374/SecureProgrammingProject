@@ -1,9 +1,8 @@
 const User = require('../Mongo/Schemas/User')
 
 async function CreateUser(username, password){
-    console.log('creating user')
-    let UserExists = await IfUserExists(username)
-    if( UserExists )
+    let UserObject = await IfUserExists(username)
+    if( UserObject.doesUserExist )
     {
         return{status: 409, message: 'This username is already taken.'}
     }
@@ -29,24 +28,43 @@ async function CreateUser(username, password){
 
 async function LoginUser(username, password)
 {
-
+    let UserObject = await IfUserExists(username)
+    if(UserObject.doesUserExist)
+    {
+        //TODO: Check if entered password matches the user password in the db
+        if(password == UserObject.targetUser[0].password)
+        {
+            return {status: 200, message: 'Login successful.'}
+        }
+        else
+        {
+            return {status: 409, message: 'Wrong password.'}
+        }
+        
+    }
+    else
+    {
+        
+        return {status: 404, message: 'A user with such a username does not exist in our database.'}
+    }
 }
 
 async function DeleteUser(){
-    console.log('deleting user')
+    return {status: 501, message: 'Deleting user is not implemented yet.'}
 }
 
 async function IfUserExists(username){
     const targetUser = await User.find({username: username})
     if(targetUser.length > 0)
     {
-        return true
+        return {'doesUserExist': true, 'targetUser': targetUser}
     }
     else
     {
-        return false
+        return {'doesUserExist': false}
     }
 }
+
 
 
 module.exports = {CreateUser, LoginUser, DeleteUser, IfUserExists}
