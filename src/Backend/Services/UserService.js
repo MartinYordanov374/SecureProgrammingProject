@@ -34,9 +34,9 @@ async function LoginUser(username, password)
     let UserObject = await IfUserExists(username)
     if(UserObject.doesUserExist)
     {
-        //TODO: Check if entered password matches the user password in the db
         if(await bcrypt.compare(password, UserObject.targetUser[0].password))
         {
+            
             return {status: 200, message: 'Login successful.'}
         }
         else
