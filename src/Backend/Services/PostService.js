@@ -2,6 +2,7 @@ const Post = require('../Mongo/Schemas/Post')
 
 async function CreatePost(content, parentPostId, ownerId){
     // TODO: Check if the post has a parent, if it does it is a comment
+
     return {status: 501, message: 'Create post method is not implemented yet.'}
 }
 
