@@ -14,7 +14,7 @@ let MongoSessionStore = new MongoStore({
 const APP_PORT = 5001
 
 const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js')
-const { CreatePost } = require('../Services/PostService.js')
+const { CreatePost, DeletePost } = require('../Services/PostService.js')
 
 
 app.use(express.json())
@@ -63,9 +63,13 @@ app.post('/post/create', async(req,res) => {
     res.status(result.status).send({'message':result.message})
 })
 
-app.get('/user/test', (req,res) => {
-    console.log(req.session)
+app.delete('/post/delete/:postId', async(req,res) => {
+    const currentUserId = req.session.userID;
+    const postId = req.params.postId;
+    let result = await DeletePost(currentUserId, postId)
+    res.status(result.status).send({'message':result.message})
 })
+
 app.listen(APP_PORT, async (res) => {
     await connectToMongoDb()
     console.log('SERVER LISTENING ON PORT ', APP_PORT)
