@@ -56,10 +56,11 @@ app.delete('/user/delete/:username', async (req,res) => {
 })
 
 app.post('/post/create', async(req,res) => {
-    const postOwnerId = req.body.ownerID; //TODO: Get this from the session
+    const postOwnerId = req.session.userID;
     const postContent = req.body.content;
     const postParentId = req.body.parentId;
     let result = await CreatePost(postContent, postParentId, postOwnerId)
+    res.status(result.status).send({'message':result.message})
 })
 
 app.get('/user/test', (req,res) => {

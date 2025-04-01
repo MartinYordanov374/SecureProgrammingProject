@@ -1,9 +1,21 @@
 const Post = require('../Mongo/Schemas/Post')
 
 async function CreatePost(content, parentPostId, ownerId){
-    // TODO: Check if the post has a parent, if it does it is a comment
-
-    return {status: 501, message: 'Create post method is not implemented yet.'}
+    try{
+        const newPost = await Post({
+            postOwner: ownerId,
+            postBody: content,
+            postParent: parentPostId
+        })
+    
+        await newPost.save()
+        return {status: 200, message: 'Post created successfully.'}
+    }
+    catch(err)
+    {
+        return {status: 501, message: 'Something went wrong with the query. Check your parameter data types as well as the query itself.'}
+    }
+    
 }
 
 async function DeletePost(){
@@ -17,6 +29,10 @@ async function LikePost(){
 }
 
 async function SharePost(){
+    return {status: 501, message: 'Share post method is not implemented yet.'}
+}
+
+async function GetPostById(id){
     return {status: 501, message: 'Share post method is not implemented yet.'}
 
 }
