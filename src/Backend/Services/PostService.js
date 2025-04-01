@@ -43,8 +43,6 @@ async function DeletePost(requestUserID, targetPostId){
         if(result.targetPost[0]?.postOwner.toString() == requestUserID)
         {
             let res = await Post.findByIdAndDelete({_id: targetPostId})
-            //TODO: Upon post deletion, delete all comments relating that post as well
-            
             return {status: 200, message: 'Post deleted successfully.'}
         }
         else
@@ -61,9 +59,19 @@ async function DeletePost(requestUserID, targetPostId){
 
 }
 
-async function LikePost(){
-    return {status: 501, message: 'Like post method is not implemented yet.'}
-
+async function LikePost(postId, likerId){
+    try{
+        await Post.findByIdAndUpdate(
+            postId, 
+            { $push: { likes: likerId } }, 
+            { new: true }
+        )
+        return {status: 200, message: 'Post liked successfully.'}
+    }
+    catch(err)
+    {
+        return {status: 500, message: 'Something went wrong. Check the like post method logic.', err}
+    }
 }
 
 async function SharePost(){
