@@ -61,15 +61,28 @@ async function DeletePost(requestUserID, targetPostId){
 
 async function LikePost(postId, likerId){
     try{
-        await Post.findByIdAndUpdate(
-            postId, 
-            { $push: { likes: likerId } }, 
+        //TODO: If user already liked the post, remove the like upon liking again
+        const likerObjectId = new mongoose.Types.ObjectId(likerId);
+        await Post.findOneAndUpdate(
+            { _id: postId },
+            [{
+                $set:{
+                    likes:{
+                        $cond: {
+                            if: { $in: [likerObjectId, "$likes"] },
+                            then: { $setDifference: ["$likes", [likerObjectId]] },
+                            else: { $concatArrays: ["$likes", [likerObjectId]] }
+                        }
+                    }
+                }
+            }],
             { new: true }
-        )
+        );
         return {status: 200, message: 'Post liked successfully.'}
     }
     catch(err)
     {
+        console.log(err)
         return {status: 500, message: 'Something went wrong. Check the like post method logic.', err}
     }
 }
