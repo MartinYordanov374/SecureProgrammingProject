@@ -1,5 +1,6 @@
 const express = require('express')
 const connectToMongoDb = require('../Mongo/Mongoose/mongoose')
+const mongoose = require('mongoose')
 
 const app = express()
 const session = require('express-session')
@@ -16,7 +17,6 @@ const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js'
 const { CreatePost } = require('../Services/PostService.js')
 
 
-//TODO: Implement express session and mongo session storage
 app.use(express.json())
 
 app.use(session({
@@ -28,16 +28,14 @@ app.use(session({
 }))
 
 app.post('/user/login', async (req,res)  => {
-    console.log('logging in')
     let username = req.body.username
     let password = req.body.password
     let result = await LoginUser(username, password)
-    console.log(result.status)
     if(result.status == 200)
     {
-        req.session.save(() => {
-
-        })
+        const userID = result.UserId
+        req.session.userID = userID
+        req.session.save(()=>{});
     }
     res.status(result.status).send({message: result.message})
 })
@@ -64,6 +62,9 @@ app.post('/post/create', async(req,res) => {
     let result = await CreatePost(postContent, postParentId, postOwnerId)
 })
 
+app.get('/user/test', (req,res) => {
+    console.log(req.session)
+})
 app.listen(APP_PORT, async (res) => {
     await connectToMongoDb()
     console.log('SERVER LISTENING ON PORT ', APP_PORT)

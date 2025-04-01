@@ -35,7 +35,7 @@ async function LoginUser(username, password)
         if(await bcrypt.compare(password, UserObject.targetUser[0].password))
         {
             
-            return {status: 200, message: 'Login successful.'}
+            return {status: 200, message: 'Login successful.', UserId: UserObject.targetUser[0]._id.toString()}
         }
         else
         {
