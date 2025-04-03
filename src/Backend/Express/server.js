@@ -1,6 +1,6 @@
 const express = require('express')
 const connectToMongoDb = require('../Mongo/Mongoose/mongoose')
-const mongoose = require('mongoose')
+const cors = require('cors');
 
 const app = express()
 const session = require('express-session')
@@ -18,6 +18,10 @@ const { CreatePost, DeletePost, LikePost } = require('../Services/PostService.js
 
 
 app.use(express.json())
+
+app.use(cors({
+    origin: 'http://localhost:3001'
+}))
 
 app.use(session({
     store: MongoSessionStore,

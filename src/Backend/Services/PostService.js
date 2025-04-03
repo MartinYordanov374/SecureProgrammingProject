@@ -2,7 +2,6 @@ const Post = require('../Mongo/Schemas/Post')
 const mongoose = require('mongoose')
 
 async function CreatePost(content, parentPostId, ownerId){
-    //TODO: Check if postparent exists before adding it.
     let postParent = await GetPostById(parentPostId)
     let newPost;
     try{
@@ -61,7 +60,6 @@ async function DeletePost(requestUserID, targetPostId){
 
 async function LikePost(postId, likerId){
     try{
-        //TODO: If user already liked the post, remove the like upon liking again
         const likerObjectId = new mongoose.Types.ObjectId(likerId);
         await Post.findOneAndUpdate(
             { _id: postId },
