@@ -20,15 +20,18 @@ const { CreatePost, DeletePost, LikePost } = require('../Services/PostService.js
 app.use(express.json())
 
 app.use(cors({
-    origin: 'http://localhost:3001'
+    origin: 'http://localhost:3001',
+    credentials: true
 }))
 
 app.use(session({
     store: MongoSessionStore,
     cookie: {
-        maxAge: 3600*60*24*7
+        maxAge: 3600*60*24*7,
+        path: '/',
+        httpOnly: true
     },
-    secret: 'This should not be here'
+    secret: 'This should not be here',
 }))
 
 app.post('/user/login', async (req,res)  => {
