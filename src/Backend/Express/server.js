@@ -16,7 +16,6 @@ const APP_PORT = 5001
 const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js')
 const { CreatePost, DeletePost, LikePost } = require('../Services/PostService.js')
 
-
 app.use(express.json())
 
 app.use(cors({
@@ -60,6 +59,16 @@ app.delete('/user/delete/:username', async (req,res) => {
     let result = await DeleteUser(username)
 
     res.status(result.status).send({message: result.message})
+})
+
+app.get('/user/isRegistered', async(req,res)=>{
+    if(req.session.userID){
+        res.status(200).send({'isRegistered': true, message: 'The current user instance is registered'})
+    }
+    else
+    {
+        res.status(401).send({'isRegistered': false, message: 'The current user instance is not registered'})
+    }
 })
 
 app.post('/post/create', async(req,res) => {
