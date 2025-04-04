@@ -71,6 +71,18 @@ app.get('/user/isRegistered', async(req,res)=>{
     }
 })
 
+app.post('/user/logout', async(req,res) => {
+    if(req.session)
+    {
+        req.session.destroy()
+        res.status(200).send({message: 'Logout successfull'})
+    }
+    else
+    {
+        res.status(401).send({message: 'You cannot perform log out as you are not logged in.'})
+    }
+})
+
 app.post('/post/create', async(req,res) => {
     const postOwnerId = req.session.userID;
     const postContent = req.body.content;
