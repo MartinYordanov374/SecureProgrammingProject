@@ -3,23 +3,26 @@ import NavigationBar from './Navbar.jsx'
 import {Form, FormControl, Button, Container} from 'react-bootstrap'
 import '../Styles/Login/LoginStyles.css'
 import Axios from 'axios'
+
 export default function Login() {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const HandleUserLogin = async () => {
+    
     if(username.trim() && password.trim())
     {
       await Axios.post('http://localhost:5001/user/login', 
       {
         username,
         password
-      })
+      }, 
+    {withCredentials: true})
       .then((res) => {
-        alert(res)
+        // console.log(document.cookie)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
     }
     else
@@ -27,7 +30,6 @@ export default function Login() {
       //TODO: Add toast container alert
     }
   }
-
   return (
     <div>
       <NavigationBar/>

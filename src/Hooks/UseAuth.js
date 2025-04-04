@@ -1,20 +1,30 @@
-import { useEffect } from "react"
 import Axios from 'axios'
+import { useEffect, useState } from 'react'
+
 
 const useAuth = () => {
+    const [isRegistered, setIsRegistered] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
-        async function FetchUserStatusEndpoint(){
-            await Axios.get('http://localhost:5001/user/isRegistered')
+        let CheckUserAuthStatus = async() => {
+            let result = await Axios.get('http://localhost:5001/user/isRegistered', {withCredentials: true})
             .then((res) => {
-                console.log(res)
+                setIsRegistered(res.data.isRegistered)
             })
             .catch((err) => {
-                console.log(err)
+                console.error("Auth check failed", err);
+                setIsRegistered(false)
+                
+                
+            })
+            .finally(()=>{
+                setIsLoading(false)
             })
         }
-        FetchUserStatusEndpoint()
+        CheckUserAuthStatus()
     }, [])
-   
+    
+    return [isRegistered, isLoading]
 }
 
-export default useAuth;
+export default useAuth
