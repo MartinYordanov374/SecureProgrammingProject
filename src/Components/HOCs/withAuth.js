@@ -11,12 +11,12 @@ export default function withAuth(Component)
     {
       if(isRegistered)
       {
-        return <Navigate to="/"/>;
+        return <Component/>
+        
       }
       else
       {
-        return <Component/>
-      
+        return <Navigate to="/"/>;
       }
     }
     else

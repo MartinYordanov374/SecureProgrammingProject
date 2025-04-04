@@ -8,20 +8,17 @@ import Register from './Components/Register';
 import Error from './Components/Error';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Profile from './Components/Profile';
-import withAuth from './Components/HOCs/withAuth';
 
 function App() {
-  const ProtectedRegister = withAuth(Register)
-  const ProtectedLogin = withAuth(Login)
   return (
    <BrowserRouter>
       <Routes>
-        <Route element={<Home />} path='/' />
-        <Route element={<ProtectedLogin />} path='/login' />
-        <Route element={<Post />} path='/post/:id' />
-        <Route element={<Profile />} path='/Profile/:id' />
-        <Route element={<ProtectedRegister />} path='/register' />
-        <Route element={<Error />} path='/*'/>
+        <Route Component={Home} path='/' />
+        <Route Component={Login} path='/login' />
+        <Route Component={Post} path='/post/:id' />
+        <Route Component={Profile} path='/Profile/:id' />
+        <Route Component={Register} path='/register' />
+        <Route Component={Error} path='/*'/>
       </Routes>
 
    </BrowserRouter>

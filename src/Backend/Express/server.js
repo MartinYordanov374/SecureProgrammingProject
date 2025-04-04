@@ -30,6 +30,7 @@ app.use(session({
         path: '/',
         httpOnly: true
     },
+    saveUninitialized: false,
     secret: 'This should not be here',
 }))
 
@@ -72,15 +73,12 @@ app.get('/user/isRegistered', async(req,res)=>{
 })
 
 app.post('/user/logout', async(req,res) => {
-    if(req.session)
-    {
-        req.session.destroy()
-        res.status(200).send({message: 'Logout successfull'})
-    }
-    else
-    {
-        res.status(401).send({message: 'You cannot perform log out as you are not logged in.'})
-    }
+
+    req.session.destroy(() => {
+       
+        res.status(200).send('logged out')
+      })
+
 })
 
 app.post('/post/create', async(req,res) => {
