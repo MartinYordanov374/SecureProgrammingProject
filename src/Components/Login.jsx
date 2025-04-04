@@ -3,15 +3,11 @@ import NavigationBar from './Navbar.jsx'
 import {Form, FormControl, Button, Container} from 'react-bootstrap'
 import '../Styles/Login/LoginStyles.css'
 import Axios from 'axios'
-import useAuth from '../Hooks/useAuth.js'
-import { Navigate } from 'react-router-dom'
 
 export default function Login() {
-
-  const [isRegistered, isLoading] = useAuth()
-
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
   const HandleUserLogin = async () => {
     
     if(username.trim() && password.trim())
@@ -34,13 +30,7 @@ export default function Login() {
       //TODO: Add toast container alert
     }
   }
-  if(isRegistered)
-  {
-      return <Navigate to='/'/>
-  }
-  else
-  {
-    return (
+  return (
       <div>
         <NavigationBar/>
         <Container className='LoginContainer'>
@@ -62,7 +52,5 @@ export default function Login() {
         
        
       </div>
-    )
-  }
-
+  )
 }

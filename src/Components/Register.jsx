@@ -2,18 +2,9 @@ import React from 'react'
 import NavigationBar from './Navbar.jsx'
 import {Form, FormControl, Button, Container} from 'react-bootstrap'
 import '../Styles/Login/LoginStyles.css'
-import useAuth from '../Hooks/useAuth.js'
-import { Navigate } from 'react-router-dom'
 
 export default function Register() {
-  const [isRegistered, isLoading] = useAuth()
 
-  if(isRegistered)
-  {
-    return <Navigate to='/'/>
-  }
-  else
-  {
     return (
       <div>
          <NavigationBar/>
@@ -37,5 +28,4 @@ export default function Register() {
         </Container>
       </div>
     )
-  }
 }
