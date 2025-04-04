@@ -18,10 +18,12 @@ export default function Register() {
             <FormControl 
             className='FormField'
             placeholder='Enter password'
+            type='password'
             />
              <FormControl 
             className='FormField'
             placeholder='Confirm password'
+            type='password'
             />
           </Form>
           <Button className='LoginBtn'>Sign up</Button>

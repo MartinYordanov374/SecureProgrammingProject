@@ -44,6 +44,7 @@ export default function Login() {
             <FormControl 
             className='FormField'
             placeholder='Enter password'
+            type='password'
             onChange={(e) => setPassword(e.target.value)}
             />
           </Form>
