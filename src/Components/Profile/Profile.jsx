@@ -12,9 +12,9 @@ export default function Profile() {
             
             <p>My profile</p>
             <Button className='btn-danger'>  Delete my profile </Button>
-            {userPosts.map(() => {
+            {/* {userPosts.map(() => {
                 return( <Post></Post>)
-            })}
+            })} */}
         </Container>
     </div>
   )

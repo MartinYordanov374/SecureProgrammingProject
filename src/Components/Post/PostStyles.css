@@ -8,4 +8,17 @@
 }
 .postContainer .commentSection {
   display: none;
+}
+.postContainer .postOwnerLink {
+  text-decoration: none;
+  color: black;
+}
+.postContainer .PostBody {
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 0%;
+  padding-bottom: 0%;
+}
+.postContainer .readMoreButton:hover {
+  cursor: pointer;
 }/*# sourceMappingURL=PostStyles.css.map */

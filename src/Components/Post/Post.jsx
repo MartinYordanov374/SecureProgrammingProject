@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Container, Card} from 'react-bootstrap'
 import './PostStyles.css'
 export default function Post({postObject, isComment=false}) 
 {
-  console.log(postObject)
+  const [isReadMoreSelected, setIsReadMoreSelected] = useState(false)
   const HandleCommentSectionVisibility = (id) => {
     let commentSection = document.getElementById(`${id}`)
     if(commentSection)
@@ -18,13 +18,52 @@ export default function Post({postObject, isComment=false})
         }
     }
   }
+
+  const HandleReadMore = () => {
+    if(isReadMoreSelected)
+    {
+      setIsReadMoreSelected(false)
+    }
+    else
+    {
+      setIsReadMoreSelected(true)
+    }
+  }
   return (
       <Container className='postContainer' style={{width:'50%'}} key={postObject._id}>
         <Card>
-            {postObject.postOwner?.username}
-          <Card.Body>
-            {postObject.postBody}
+            <a 
+            className='postOwnerLink'
+            href={`/Profile/${postObject.postOwner._id}`}
+            >
+              {postObject.postOwner?.username}
+            </a>
+            <hr/>
+          <Card.Body className='PostBody'>
+            {
+            postObject.postBody.length > 150 
+            ?
+              (!isReadMoreSelected
+                ? 
+                  <>
+                    {postObject.postBody.slice(0,150)} 
+                    <a className='readMoreButton' onClick={() => HandleReadMore()}>
+                      ...read more
+                    </a> 
+                  </>
+                : 
+                <>
+                {postObject.postBody} 
+                <a className='readMoreButton' onClick={() => HandleReadMore()}>
+                  ...show less
+                </a> 
+                </>
+              )
+            :
+              postObject.postBody
+            }
           </Card.Body>
+          <hr/>
           <div className='PostInteractionButtons row' style={{textAlign: 'center'}}>
             {isComment ?
               <> 

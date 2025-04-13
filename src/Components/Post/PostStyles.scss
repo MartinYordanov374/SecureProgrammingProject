@@ -10,4 +10,19 @@
     .commentSection{
         display: none;
     }
+    .postOwnerLink{
+        text-decoration: none;
+        color: black;
+    }
+    .PostBody{
+        padding-left: 4%;
+        padding-right: 4%;
+        padding-top: 0%;
+        padding-bottom: 0%;
+    }
+    .readMoreButton{
+        &:hover{
+            cursor: pointer;
+        }
+    }
 }
