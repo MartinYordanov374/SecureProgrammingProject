@@ -5,4 +5,7 @@
 }
 .postContainer .interactionButton:hover {
   cursor: pointer;
+}
+.postContainer .commentSection {
+  display: none;
 }/*# sourceMappingURL=PostStyles.css.map */
