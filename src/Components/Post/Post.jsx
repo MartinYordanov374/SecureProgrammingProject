@@ -12,13 +12,13 @@ export default function Post({postObject, isComment=false}) {
           <div className='PostInteractionButtons row' style={{textAlign: 'center'}}>
             {isComment ?
               <> 
-                <div className='col'>Like</div>
+                <div className='col interactionButton'>Like</div>
               </>
               :
               <>
-                <div className='col'>Like</div>
-                <div className='col'>Comments</div>
-                <div className='col'>Share</div>
+                <div className='col interactionButton'>Like</div>
+                <div className='col interactionButton'>Comments</div>
+                <div className='col interactionButton'>Share</div>
               </>
              
             }
