@@ -4,10 +4,12 @@ import {Form, FormControl, Button, Container} from 'react-bootstrap'
 import '../Styles/Login/LoginStyles.css'
 import Axios from 'axios'
 import {ToastContainer, toast} from 'react-toastify'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 export default function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate();
 
   const HandleUserLogin = async () => {
     
@@ -21,6 +23,9 @@ export default function Login() {
     {withCredentials: true})
       .then((res) => {
         toast.success('Login successful')
+        setTimeout(() => {
+          navigate('/')
+        }, 2500);
       })
       .catch((err) => {
         toast.error(err.response.data.message)

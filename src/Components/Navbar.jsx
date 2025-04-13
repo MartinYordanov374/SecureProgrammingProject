@@ -6,12 +6,11 @@ import { useNavigate } from 'react-router-dom'
 export default function NavigationBar() 
 {
   const [isRegistered, isLoading] = useAuth();
-  const navigate = useNavigate()
   const handleLogOut = () => {
     async function LogOut(){
       await Axios.post('http://localhost:5001/user/logout', {}, {withCredentials: true})
       .then((res) => {
-        navigate('/') //TODO: Make that work
+        window.location.href='/'
       })
       .catch((err) => {
         console.log(err)
