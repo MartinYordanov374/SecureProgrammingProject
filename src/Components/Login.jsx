@@ -3,6 +3,7 @@ import NavigationBar from './Navbar.jsx'
 import {Form, FormControl, Button, Container} from 'react-bootstrap'
 import '../Styles/Login/LoginStyles.css'
 import Axios from 'axios'
+import {ToastContainer, toast} from 'react-toastify'
 
 export default function Login() {
   const [username, setUsername] = useState('')
@@ -19,20 +20,21 @@ export default function Login() {
       }, 
     {withCredentials: true})
       .then((res) => {
-        // console.log(document.cookie)
+        toast.success('Login successful')
       })
       .catch((err) => {
-        // console.log(err)
+        toast.error(err.response.data.message)
       })
     }
     else
     {
-      //TODO: Add toast container alert
+      toast.warn('All fields are required!')
     }
   }
   return (
       <div>
         <NavigationBar/>
+        <ToastContainer/>
         <Container className='LoginContainer'>
           <p>Log in</p>
           <Form>

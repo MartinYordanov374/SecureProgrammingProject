@@ -35,11 +35,9 @@ export default function Register() {
       {
         toast.error('The passwords do not match!')
       }
-
     }
     else
     {
-      //TODO: Add toast container alert
       toast.warn('All input fields are required!')
     }
   }
