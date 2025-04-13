@@ -101,4 +101,19 @@ async function GetPostById(postId){
     }
 }
 
-module.exports = {CreatePost, DeletePost, LikePost, SharePost}
+async function GetAllPosts()
+{
+    try
+    {
+        //TODO: Consider fetching the top 10 or so posts, if I fetch all of them, it may be too much
+        let allPostsObject = await Post.find({}).populate('postOwner', 'username')
+        console.log(allPostsObject)
+        return {status: 200, message: 'Posts successfully fetched.', allPostsObject}
+    }
+    catch(err)
+    {
+        return {status: 500, message: 'Something went wrong.', err}
+    }
+}
+
+module.exports = {CreatePost, DeletePost, LikePost, SharePost, GetAllPosts}

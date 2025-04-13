@@ -14,7 +14,7 @@ let MongoSessionStore = new MongoStore({
 const APP_PORT = 5001
 
 const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js')
-const { CreatePost, DeletePost, LikePost } = require('../Services/PostService.js')
+const { CreatePost, DeletePost, LikePost, GetAllPosts } = require('../Services/PostService.js')
 
 const PASSWORD_REGEX = /^(?=.*\w)(?=.*[A-Z]){1,}(?=.*\W).{8,}$/
 
@@ -119,6 +119,11 @@ app.post("/post/like/:postId", async(req,res) => {
     let userId = req.session.userID
     let result = await LikePost(postId, userId);
     res.status(result.status).send({'message':result.message})
+})
+
+app.get("/post/getAll", async(req,res) => {
+    let result = await GetAllPosts();
+    res.status(result.status).send({'message':result.message, 'posts': result})
 })
 
 app.listen(APP_PORT, async (res) => {
