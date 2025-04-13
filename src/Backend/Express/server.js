@@ -16,6 +16,8 @@ const APP_PORT = 5001
 const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js')
 const { CreatePost, DeletePost, LikePost } = require('../Services/PostService.js')
 
+const PASSWORD_REGEX = '^(?=.*\w)(?=.*[A-Z]){1,}(?=.*\W).{8,}$'
+
 app.use(express.json())
 
 app.use(cors({
@@ -37,6 +39,11 @@ app.use(session({
 app.post('/user/login', async (req,res)  => {
     let username = req.body.username
     let password = req.body.password
+    if(password.match(PASSWORD_REGEX))
+    {
+        res.status(403).send({message: 'This password does not match the criteria. The password should be at least 8 characters long. It should include at least one upper-case letter and at least one special character.'})
+    }
+    
     let result = await LoginUser(username, password)
     if(result.status == 200)
     {
@@ -48,8 +55,14 @@ app.post('/user/login', async (req,res)  => {
 })
 
 app.post('/user/register', async (req,res) => {
-    let username = req.body.username
-    let password = req.body.password
+    let username = req.body.username.trim()
+    let password = req.body.password.trim()
+    if(password.match(PASSWORD_REGEX))
+    {
+        //TODO: Move all message strings to a seperate file
+        res.status(403).send({message: 'This password does not match the criteria. The password should be at least 8 characters long. It should include at least one upper-case letter and at least one special character.'})
+    }
+
     let result = await CreateUser(username, password)
 
     res.status(result.status).send({message: result.message})
