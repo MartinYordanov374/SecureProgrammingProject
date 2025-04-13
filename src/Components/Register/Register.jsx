@@ -48,7 +48,6 @@ export default function Register() {
   }
     return (
       <div>
-         <NavigationBar/>
          <ToastContainer/>
          <Container className='LoginContainer'>
           <p>Sign up</p>
