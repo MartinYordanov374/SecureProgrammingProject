@@ -1,15 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import Home from './Components/Home';
-import Login from './Components/Login';
-import Post from './Components/Post';
-import Register from './Components/Register';
-import Error from './Components/Error';
+import Home from './Components/Home/Home.jsx';
+import Login from './Components/Login/Login.jsx';
+import Post from './Components/Post/Post.jsx';
+import Register from './Components/Register/Register.jsx';
+import Error from './Components/Error/Error.jsx';
+import Profile from './Components/Profile/Profile.jsx';
+import withAuth from './Components/HOCs/withAuth.js'
+import withGuest from './Components/HOCs/withGuest.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Profile from './Components/Profile';
-import withAuth from './Components/HOCs/withAuth'
-import withGuest from './Components/HOCs/withGuest'
+
 function App() {
   const ProtectedProfile = withAuth(Profile)
   const ProtectedPost = withAuth(Post)

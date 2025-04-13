@@ -1,8 +1,7 @@
 import React from 'react'
 import {NavItem, Navbar, NavLink, NavbarBrand, Nav} from 'react-bootstrap'
-import useAuth from '../Hooks/useAuth.js'
+import useAuth from '../../Hooks/useAuth.js'
 import Axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 export default function NavigationBar() 
 {
   const [isRegistered, isLoading] = useAuth();

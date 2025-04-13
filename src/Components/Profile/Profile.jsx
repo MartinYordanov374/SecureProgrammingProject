@@ -1,7 +1,7 @@
 import React from 'react'
-import NavigationBar from './Navbar.jsx'
+import NavigationBar from '../Navbar/Navbar.jsx'
 import {Form, FormControl, Button, Container} from 'react-bootstrap'
-import Post from './Post.jsx'
+import Post from '../Post/Post.jsx'
 
 export default function Profile() {
   let userPosts = [{}, {}, {}]
