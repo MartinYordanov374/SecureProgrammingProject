@@ -109,6 +109,8 @@ async function GetAllPosts()
         let allPostsList = await Post.find({
             postParent: { $exists: false }
         }).populate('postOwner', 'username')
+        .populate('comments')
+        .populate('comments.postOwner', 'username')
         return {status: 200, message: 'Posts successfully fetched.', allPostsList}
     }
     catch(err)
