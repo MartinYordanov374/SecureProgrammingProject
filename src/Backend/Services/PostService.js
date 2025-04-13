@@ -106,9 +106,10 @@ async function GetAllPosts()
     try
     {
         //TODO: Consider fetching the top 10 or so posts, if I fetch all of them, it may be too much
-        let allPostsObject = await Post.find({}).populate('postOwner', 'username')
-        console.log(allPostsObject)
-        return {status: 200, message: 'Posts successfully fetched.', allPostsObject}
+        let allPostsList = await Post.find({
+            postParent: { $exists: false }
+        }).populate('postOwner', 'username')
+        return {status: 200, message: 'Posts successfully fetched.', allPostsList}
     }
     catch(err)
     {

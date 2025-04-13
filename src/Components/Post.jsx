@@ -1,15 +1,16 @@
 import React from 'react'
 import {Container, Card} from 'react-bootstrap'
 import '../Styles/Post/PostStyles.css'
-export default function Post() {
+export default function Post({postObject}) {
+  console.log(postObject)
   return (
       <Container className='postContainer'>
         <Card>
           <Card.Header>
-            Post Owner
+            {postObject.postOwner.username}
           </Card.Header>
           <Card.Body>
-            Post body
+            {postObject.postBody}
           </Card.Body>
           <Card.Footer>
             <div>Like</div>

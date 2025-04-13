@@ -123,7 +123,7 @@ app.post("/post/like/:postId", async(req,res) => {
 
 app.get("/post/getAll", async(req,res) => {
     let result = await GetAllPosts();
-    res.status(result.status).send({'message':result.message, 'posts': result})
+    res.status(result.status).send({'message':result.message, 'posts': result.allPostsList})
 })
 
 app.listen(APP_PORT, async (res) => {

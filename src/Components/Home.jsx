@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavigationBar from './Navbar.jsx'
 import Post from './Post.jsx'
 import Axios from 'axios'
 
 export default function Home() {
-  let posts = [1,2,3,4,5]
+  const [posts, setPosts] = useState([])
+  
   const GetPosts = async() => {
     await Axios.get('http://localhost:5001/post/getAll',{})
     .then((res) => {
-      console.log(res)
+      setPosts(res.data.posts)
     })
     .catch((err) => {
       console.log(err)
@@ -21,8 +22,8 @@ export default function Home() {
     <div>
       <NavigationBar/>
       Home  
-      {posts.map(() => {
-       return(<Post></Post>)
+      {posts.map((post) => {
+       return(<Post postObject={post}/>)
       })}
       
     </div>
