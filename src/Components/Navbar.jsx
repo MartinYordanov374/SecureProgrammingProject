@@ -11,7 +11,7 @@ export default function NavigationBar()
     async function LogOut(){
       await Axios.post('http://localhost:5001/user/logout', {}, {withCredentials: true})
       .then((res) => {
-        navigate('/')
+        navigate('/') //TODO: Make that work
       })
       .catch((err) => {
         console.log(err)

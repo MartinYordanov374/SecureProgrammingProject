@@ -19,7 +19,7 @@ const { CreatePost, DeletePost, LikePost } = require('../Services/PostService.js
 app.use(express.json())
 
 app.use(cors({
-    origin: 'http://localhost:3001',
+    origin: ['http://localhost:3001','http://localhost:3000'],
     credentials: true
 }))
 
@@ -102,6 +102,7 @@ app.post("/post/like/:postId", async(req,res) => {
     let result = await LikePost(postId, userId);
     res.status(result.status).send({'message':result.message})
 })
+
 app.listen(APP_PORT, async (res) => {
     await connectToMongoDb()
     console.log('SERVER LISTENING ON PORT ', APP_PORT)
