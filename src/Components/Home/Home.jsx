@@ -20,7 +20,6 @@ export default function Home() {
   }, [])
   return (
     <div>
-      <NavigationBar/>
       Home  
       {posts.length > 0 ?
         posts.map((post) => {

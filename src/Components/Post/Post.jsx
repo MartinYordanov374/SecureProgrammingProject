@@ -1,9 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Container, Card} from 'react-bootstrap'
 import './PostStyles.css'
-export default function Post({postObject, isComment=false}) 
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import NavigationBar from '../Navbar/Navbar.jsx'
+import Axios from 'axios'
+
+export default function Post({postObject=undefined, isComment=false}) 
 {
+  const navigate = useNavigate()
   const [isReadMoreSelected, setIsReadMoreSelected] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [localPostObject, setLocalPostObject] = useState(postObject);
+  const [isSpecificPostPage, setIsSpecificPostPage] = useState(false)
+  const {id} = useParams()
+
   const HandleCommentSectionVisibility = (id) => {
     let commentSection = document.getElementById(`${id}`)
     if(commentSection)
@@ -19,7 +29,8 @@ export default function Post({postObject, isComment=false})
     }
   }
 
-  const HandleReadMore = () => {
+  const HandleReadMore = (e) => {
+    e.stopPropagation()
     if(isReadMoreSelected)
     {
       setIsReadMoreSelected(false)
@@ -29,68 +40,103 @@ export default function Post({postObject, isComment=false})
       setIsReadMoreSelected(true)
     }
   }
-  return (
-      <Container className='postContainer' style={{width:'50%'}} key={postObject._id}>
-        <Card>
-            <a 
-            className='postOwnerLink'
-            href={`/Profile/${postObject.postOwner._id}`}
-            >
-              {postObject.postOwner?.username}
-            </a>
-            <hr/>
-          <Card.Body className='PostBody'>
-            {
-            postObject.postBody.length > 150 
-            ?
-              (!isReadMoreSelected
-                ? 
-                  <>
-                    {postObject.postBody.slice(0,150)} 
-                    <a className='readMoreButton' onClick={() => HandleReadMore()}>
-                      ...read more
-                    </a> 
-                  </>
-                : 
-                <>
-                {postObject.postBody} 
-                <a className='readMoreButton' onClick={() => HandleReadMore()}>
-                  ...show less
-                </a> 
-                </>
-              )
-            :
-              postObject.postBody
-            }
-          </Card.Body>
-          <hr/>
-          <div className='PostInteractionButtons row' style={{textAlign: 'center'}}>
-            {isComment ?
-              <> 
-                <div className='col interactionButton'>Like</div>
-              </>
-              :
-              <>
-                <div className='col interactionButton'>Like</div>
-                <div className='col interactionButton' onClick={() => {HandleCommentSectionVisibility(postObject._id)}}>
-                {postObject.comments?.length == 0 ? 0 : postObject.comments?.length}  Comments
-                </div>
-                <div className='col interactionButton'>Share</div>
-              </>
-             
-            }
 
-          </div>
-        </Card>
-       
-          {postObject.comments?.length > 0 ? 
-              <Card className='commentSection' id={postObject._id}>
-                {postObject.comments.map((comment) => {
-                  return(<Post postObject={comment} isComment={true}/>)
-                })}
-              </Card>
-              : ""}
-       
-      </Container>
+  const NavigateToPostPage = () => {
+    navigate(`/post/${localPostObject._id}`)
+  }
+
+  const GetTargetPost = async() => {
+    await Axios.get(`http://localhost:5001/post/fetch/${id}`)
+    .then((res) => {
+      setLocalPostObject(res.data.post[0])
+      setIsSpecificPostPage(true)
+      setLoading(false)
+    })
+    .catch((err) => {
+       console.log(err)
+    })
+  }
+
+  useEffect(() => {
+    if(postObject==undefined)
+    {
+      GetTargetPost()
+    }
+    else
+    {
+      setLoading(false)
+    }
+  }, [])
+
+  return (
+    <>
+      {loading 
+      ?
+       "Loading..." 
+      :
+        <Container className='postContainer' style={{width:'50%'}} key={localPostObject?._id}>
+          <Card>
+              <a 
+              className='postOwnerLink'
+              href={`/Profile/${localPostObject?.postOwner?._id}`}
+              >
+                {localPostObject?.postOwner?.username}
+              </a>
+              <hr/>
+            <Card.Body className='PostBody' onClick={!isSpecificPostPage && !isComment? ()=>NavigateToPostPage() : ()=>{}}>
+              {
+              localPostObject?.postBody?.length > 150 
+              ?
+                (!isReadMoreSelected
+                  ? 
+                    <>
+                      {localPostObject.postBody.slice(0,150)} 
+                      <a className='readMoreButton' onClick={(e) => HandleReadMore(e)}>
+                        ...read more
+                      </a> 
+                    </>
+                  : 
+                  <>
+                  {localPostObject.postBody} 
+                  <a className='readMoreButton' onClick={(e) => HandleReadMore(e)}>
+                    ...show less
+                  </a> 
+                  </>
+                )
+              :
+              localPostObject?.postBody
+              }
+            </Card.Body>
+            <hr/>
+            <div className='PostInteractionButtons row' style={{textAlign: 'center'}}>
+              {isComment ?
+                <> 
+                  <div className='col interactionButton'>Like</div>
+                </>
+                :
+                <>
+                  <div className='col interactionButton'>Like</div>
+                  <div className='col interactionButton' onClick={() => {HandleCommentSectionVisibility(localPostObject?._id)}}>
+                  {localPostObject?.comments?.length == 0 ? 0 : localPostObject?.comments?.length}  Comments
+                  </div>
+                  <div className='col interactionButton'>Share</div>
+                </>
+              
+              }
+
+            </div>
+          </Card>
+        
+            {localPostObject?.comments?.length > 0 ? 
+                <Card className='commentSection' id={localPostObject?._id}>
+                  {localPostObject?.comments.map((comment) => {
+                    return(<Post postObject={comment} isComment={true}/>)
+                  })}
+                </Card>
+                : ""}
+        
+        </Container>
+      }
+    </>
   )
 }

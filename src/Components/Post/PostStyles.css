@@ -19,6 +19,9 @@
   padding-top: 0%;
   padding-bottom: 0%;
 }
+.postContainer .PostBody:hover {
+  cursor: pointer;
+}
 .postContainer .readMoreButton:hover {
   cursor: pointer;
 }/*# sourceMappingURL=PostStyles.css.map */

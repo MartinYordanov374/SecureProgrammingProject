@@ -7,7 +7,6 @@ export default function Profile() {
   let userPosts = [{}, {}, {}]
   return (
     <div>
-        <NavigationBar/>
         <Container>
             
             <p>My profile</p>

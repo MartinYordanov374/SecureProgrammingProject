@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import NavigationBar from '../src/Components/Navbar/Navbar.jsx'
 import Home from './Components/Home/Home.jsx';
 import Login from './Components/Login/Login.jsx';
 import Post from './Components/Post/Post.jsx';
@@ -18,6 +19,7 @@ function App() {
   const GuestRegister = withGuest(Register)
   return (
    <BrowserRouter>
+      <NavigationBar/>
       <Routes>
         <Route element={<Home/>} path='/' />
         <Route element={<Error/>} path='/*'/>

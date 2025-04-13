@@ -38,7 +38,6 @@ export default function Login() {
   }
   return (
       <div>
-        <NavigationBar/>
         <ToastContainer/>
         <Container className='LoginContainer'>
           <p>Log in</p>

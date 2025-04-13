@@ -19,6 +19,9 @@
         padding-right: 4%;
         padding-top: 0%;
         padding-bottom: 0%;
+        &:hover{
+            cursor: pointer;
+        }
     }
     .readMoreButton{
         &:hover{

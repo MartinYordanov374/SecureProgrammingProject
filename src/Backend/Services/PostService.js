@@ -93,6 +93,12 @@ async function GetPostById(postId){
     try
     {
         let targetPost = await Post.find({_id: postId})
+        .populate('postOwner', 'username')
+        .populate({path:'comments', 
+            populate: {
+                path: 'postOwner',
+                select: 'username'
+            }})
         return {status: 200, message: 'Post successfully fetched.', targetPost}
     }
     catch(err)
@@ -123,4 +129,4 @@ async function GetAllPosts()
     }
 }
 
-module.exports = {CreatePost, DeletePost, LikePost, SharePost, GetAllPosts}
+module.exports = {CreatePost, DeletePost, LikePost, SharePost, GetAllPosts, GetPostById}
