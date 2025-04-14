@@ -107,6 +107,24 @@ async function GetPostById(postId){
     }
 }
 
+async function GetPostsByUser(UserID){
+    try
+    {
+        let targetPost = await Post.find({postOwner: UserID, postParent: { $exists: false }})
+        .populate('postOwner', 'username')
+        .populate({path:'comments', 
+            populate: {
+                path: 'postOwner',
+                select: 'username'
+            }})
+        return {status: 200, message: 'Post successfully fetched.', targetPost}
+    }
+    catch(err)
+    {
+        return {status: 500, message: 'Something went wrong, it is likely that a post with such ID does not exist. Check again.', err}
+    }
+}
+
 async function GetAllPosts()
 {
     try
@@ -129,4 +147,4 @@ async function GetAllPosts()
     }
 }
 
-module.exports = {CreatePost, DeletePost, LikePost, SharePost, GetAllPosts, GetPostById}
+module.exports = {CreatePost, DeletePost, LikePost, SharePost, GetAllPosts, GetPostById, GetPostsByUser}

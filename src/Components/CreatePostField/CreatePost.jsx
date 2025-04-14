@@ -3,7 +3,6 @@ import './CreatePostStyles.css'
 import { Button, Card, FormControl, Modal } from 'react-bootstrap'
 import Axios from 'axios'
 import {ToastContainer, toast} from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
 export default function CreatePost(
     {
     parentId=-1, 

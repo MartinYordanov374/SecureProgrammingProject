@@ -14,7 +14,7 @@ let MongoSessionStore = new MongoStore({
 const APP_PORT = 5001
 
 const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js')
-const { CreatePost, DeletePost, LikePost, GetAllPosts, GetPostById } = require('../Services/PostService.js')
+const { CreatePost, DeletePost, LikePost, GetAllPosts, GetPostById, GetPostsByUser } = require('../Services/PostService.js')
 
 const PASSWORD_REGEX = /^(?=.*\w)(?=.*[A-Z]){1,}(?=.*\W).{8,}$/
 
@@ -132,6 +132,11 @@ app.get("/post/getAll", async(req,res) => {
 
 app.get("/post/fetch/:postId", async(req,res) => {
     let result = await GetPostById(req.params.postId)
+    res.status(result.status).send({'message':result.message, 'post': result.targetPost})
+})
+
+app.get("/post/fetch/owner/:userID", async(req,res) => {
+    let result = await GetPostsByUser(req.params.userID)
     res.status(result.status).send({'message':result.message, 'post': result.targetPost})
 })
 
