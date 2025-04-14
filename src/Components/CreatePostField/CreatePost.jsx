@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import './CreatePostStyles.css'
-import { Button, Card, FormCheck, FormControl, Modal } from 'react-bootstrap'
+import { Button, Card, FormControl, Modal } from 'react-bootstrap'
+import Axios from 'axios'
 
 export default function CreatePost() 
 {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [postContent, setPostContent] = useState('')
+  const [parentId, setParentId] = useState(-1)
+
   const hideModal = () => {
     setIsModalOpen(false)
   }
@@ -20,6 +24,20 @@ export default function CreatePost()
     {
         showModal()
     }
+  }
+  const createPost = async() => {
+    await Axios.post(
+        'http://localhost:5001/post/create', 
+        {'content': postContent, 'parentId': parentId}, 
+        {withCredentials: true}
+    )
+    .then((res) => {
+        console.log(res)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+
   }
   return (
     <>
@@ -38,11 +56,12 @@ export default function CreatePost()
                 rows={2}
                 placeholder='How is your cyber security journey going?'
                 className='CreatePostModalInputField'
+                onChange={(e) => setPostContent(e.target.value)}
             />
         </Modal.Body>
         <Modal.Footer>
             <Button className='btn-danger' onClick={() => hideModal()}>Cancel</Button>
-            <Button>Publish</Button>
+            <Button onClick={() => createPost()}>Publish</Button>
         </Modal.Footer>
     </Modal>
     </>

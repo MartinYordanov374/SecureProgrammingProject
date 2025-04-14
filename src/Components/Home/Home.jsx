@@ -11,7 +11,7 @@ export default function Home() {
   const GetPosts = async() => {
     await Axios.get('http://localhost:5001/post/getAll',{withCredentials: true})
     .then((res) => {
-      setPosts(res.data.posts)
+      setPosts(res.data.posts.reverse())
     })
     .catch((err) => {
       console.log(err)

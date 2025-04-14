@@ -5,7 +5,7 @@ async function CreatePost(content, parentPostId, ownerId){
     let postParent = await GetPostById(parentPostId)
     let newPost;
     try{
-        if(postParent.targetPost.length > 0)
+        if(postParent?.targetPost?.length > 0)
         {
             newPost = await Post({
                 postOwner: ownerId,
@@ -13,7 +13,7 @@ async function CreatePost(content, parentPostId, ownerId){
                 postParent: parentPostId
             })
             await Post.findByIdAndUpdate(
-                postParent.targetPost[0]._id, 
+                postParent?.targetPost[0]._id, 
                 { $push: { comments: newPost._id } }, 
                 { new: true } 
             );
