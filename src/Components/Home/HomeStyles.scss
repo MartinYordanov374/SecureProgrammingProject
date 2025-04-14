@@ -1,0 +1,14 @@
+.CreatePostField{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(240, 240, 240) !important;
+    padding: 1% !important;
+    padding-left:2% !important;
+    font-size: large;
+    border-radius: 40px !important;
+    &:hover{
+        background-color: rgb(220, 220, 220) !important;
+        cursor: pointer;
+    }
+}
