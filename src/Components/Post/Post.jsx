@@ -58,6 +58,16 @@ export default function Post({postObject=undefined, isComment=false})
     })
   }
 
+  const HandleLikePost = async() => {
+    await Axios.post(`http://localhost:5001/post/like/${localPostObject._id}`, {}, {withCredentials: true})
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
   useEffect(() => {
     if(postObject==undefined)
     {
@@ -112,11 +122,11 @@ export default function Post({postObject=undefined, isComment=false})
             <div className='PostInteractionButtons row' style={{textAlign: 'center'}}>
               {isComment ?
                 <> 
-                  <div className='col interactionButton'>Like</div>
+                  <div className='col interactionButton' onClick={() => HandleLikePost()}>{localPostObject?.likes.length} Like</div>
                 </>
                 :
                 <>
-                  <div className='col interactionButton'>Like</div>
+                  <div className='col interactionButton' onClick={() => HandleLikePost()}>{localPostObject?.likes.length} Like</div>
                   <div className='col interactionButton' onClick={() => {HandleCommentSectionVisibility(localPostObject?._id)}}>
                   {localPostObject?.comments?.length == 0 ? 0 : localPostObject?.comments?.length}  Comments
                   </div>

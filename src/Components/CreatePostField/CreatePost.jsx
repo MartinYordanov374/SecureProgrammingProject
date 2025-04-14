@@ -3,7 +3,12 @@ import './CreatePostStyles.css'
 import { Button, Card, FormControl, Modal } from 'react-bootstrap'
 import Axios from 'axios'
 import {ToastContainer, toast} from 'react-toastify'
-export default function CreatePost({parentId=-1, className='CreatePostField', placeholder='How is your cyber security journey going?'}) 
+import { useNavigate } from 'react-router-dom'
+export default function CreatePost(
+    {
+    parentId=-1, 
+    className='CreatePostField', 
+    placeholder='How is your cyber security journey going?'})   
 {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [postContent, setPostContent] = useState('')
@@ -42,7 +47,7 @@ export default function CreatePost({parentId=-1, className='CreatePostField', pl
     <>
     <ToastContainer/>
     <Card 
-    className={className} //'CreatePostField', 'CreateCommentField'
+    className={className}
     onClick={() => {handleCreatePostClick()}}
     >
       {placeholder}
