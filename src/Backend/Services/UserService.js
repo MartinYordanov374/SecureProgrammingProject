@@ -1,12 +1,22 @@
 const User = require('../Mongo/Schemas/User')
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10
+const {
+    USERNAME_TAKEN,
+    REGISTRATION_SUCCESSFUL,
+    REGISTRATION_ERROR,
+    LOGIN_SUCCESS,
+    WRONG_PASSWORD,
+    USER_DELETE_SUCCESS,
+    USER_DELETE_NOT_FOUND,
+    USER_DELETE_ERROR
+} = require('../Utilities/Messages.js')
 
 async function CreateUser(username, password){
     let UserObject = await IfUserExists(username)
     if( UserObject.doesUserExist )
     {
-        return{status: 409, message: 'This username is already taken.'}
+        return{status: 409, message: USERNAME_TAKEN}
     }
     else
     {
@@ -18,11 +28,11 @@ async function CreateUser(username, password){
             })
         
             await NewUser.save()
-            return {status: 200, message: 'User successfully registered'}
+            return {status: 200, message: REGISTRATION_SUCCESSFUL}
         }
         catch
         {
-            return {status: 500, message: 'Internal server error: Something went wrong with the fetching. Check database connection.'}
+            return {status: 500, message: REGISTRATION_ERROR}
         }
     }
 }
@@ -35,11 +45,11 @@ async function LoginUser(username, password)
         if(await bcrypt.compare(password, UserObject.targetUser[0].password))
         {
             
-            return {status: 200, message: 'Login successful.', UserId: UserObject.targetUser[0]._id.toString()}
+            return {status: 200, message: LOGIN_SUCCESS, UserId: UserObject.targetUser[0]._id.toString()}
         }
         else
         {
-            return {status: 409, message: 'Wrong password.'}
+            return {status: 409, message: WRONG_PASSWORD}
         }
         
     }
@@ -56,16 +66,16 @@ async function DeleteUser(username){
     {
         try{
             await User.findOneAndDelete({username: username})
-            return {status: 200, message: 'User deleted successfully.'}
+            return {status: 200, message: USER_DELETE_SUCCESS}
         }
         catch(err)
         {
-            return {status: 500, message: 'Internal server error. Something went wrong when trying to delete that user.'}
+            return {status: 500, message: USER_DELETE_ERROR}
         }
     }
     else
     {
-        return {status: 404, message: 'The user you are trying to delete does not exist.'}
+        return {status: 404, message: USER_DELETE_NOT_FOUND}
     }
    
 }

@@ -1,11 +1,14 @@
 const express = require('express')
 const connectToMongoDb = require('../Mongo/Mongoose/mongoose')
 const cors = require('cors');
-
 const app = express()
 const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
-
+const {
+    USER_NOT_REGISTERED, 
+    USER_REGISTERED,
+    PASSWORD_CRITERIA_NOT_MET
+} = require('../Utilities/Messages.js')
 let MongoSessionStore = new MongoStore({
     uri: 'mongodb://localhost:27017/testmongodb',
     collection: 'userSessions'
@@ -42,7 +45,7 @@ app.post('/user/login', async (req,res)  => {
 
     if(!PASSWORD_REGEX.test(password))
     {
-        res.status(403).send({message: 'This password does not match the criteria. The password should be at least 8 characters long. It should include at least one upper-case letter and at least one special character.'})
+        res.status(403).send({message: PASSWORD_CRITERIA_NOT_MET})
     }
     else
     {
@@ -62,8 +65,7 @@ app.post('/user/register', async (req,res) => {
     let password = req.body.password.trim()
     if(!PASSWORD_REGEX.test(password))
     {
-        //TODO: Move all message strings to a seperate file
-        res.status(403).send({message: 'This password does not match the criteria. The password should be at least 8 characters long. It should include at least one upper-case letter and at least one special character.'})
+        res.status(403).send({message:PASSWORD_CRITERIA_NOT_MET})
     }
     else
     {
@@ -82,11 +84,11 @@ app.delete('/user/delete/:username', async (req,res) => {
 
 app.get('/user/isRegistered', async(req,res)=>{
     if(req.session.userID){
-        res.status(200).send({'isRegistered': true, message: 'The current user instance is registered'})
+        res.status(200).send({'isRegistered': true, message: USER_REGISTERED})
     }
     else
     {
-        res.status(401).send({'isRegistered': false, message: 'The current user instance is not registered'})
+        res.status(401).send({'isRegistered': false, message: USER_NOT_REGISTERED})
     }
 })
 
@@ -107,9 +109,7 @@ app.post('/post/create', async(req,res) => {
     res.status(result.status).send({'message':result.message})
 })
 //TODO: Implement user post deletion on the front end
-//TODO: Add endpoint for getting a user's posts
 //TODO: Make the UI reflect post changes in real time
-//TODO: Sort posts by date time, then likes
 //TODO: Dockerize application once ready
 app.delete('/post/delete/:postId', async(req,res) => {
     const currentUserId = req.session.userID;

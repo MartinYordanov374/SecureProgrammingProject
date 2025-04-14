@@ -1,6 +1,16 @@
 const Post = require('../Mongo/Schemas/Post')
 const mongoose = require('mongoose')
-
+const {
+POST_CREATED_SUCCESSFULLY,
+QUERY_ERROR,
+POST_DELETED_SUCCESSFULLY,
+NOT_AUTHORIZED,
+POST_LIKE_SUCCESS,
+CHECK_LIKE_POST_LOGIC,
+NOT_IMPLEMENTED_MESSAGE,
+POST_FETCHED_SUCCESS,
+POST_FETCH_ERROR
+} = require('../Utilities/Messages.js')
 async function CreatePost(content, parentPostId, ownerId){
     let postParent = await GetPostById(parentPostId)
     let newPost;
@@ -26,11 +36,11 @@ async function CreatePost(content, parentPostId, ownerId){
             })
         }
         await newPost.save()
-        return {status: 200, message: 'Post created successfully.'}
+        return {status: 200, message: POST_CREATED_SUCCESSFULLY}
     }
     catch(err)
     {
-        return {status: 501, message: 'Something went wrong with the query. Check your parameter data types as well as the query itself.'}
+        return {status: 501, message: QUERY_ERROR}
     }
     
 }
@@ -42,11 +52,11 @@ async function DeletePost(requestUserID, targetPostId){
         if(result.targetPost[0]?.postOwner.toString() == requestUserID)
         {
             let res = await Post.findByIdAndDelete({_id: targetPostId})
-            return {status: 200, message: 'Post deleted successfully.'}
+            return {status: 200, message: POST_DELETED_SUCCESSFULLY}
         }
         else
         {
-            return {status: 401, message: 'You are not authorized to execute this action.'}
+            return {status: 401, message: NOT_AUTHORIZED}
         }
         
        
@@ -76,17 +86,17 @@ async function LikePost(postId, likerId){
             }],
             { new: true }
         );
-        return {status: 200, message: 'Post liked successfully.'}
+        return {status: 200, message: POST_LIKE_SUCCESS}
     }
     catch(err)
     {
         console.log(err)
-        return {status: 500, message: 'Something went wrong. Check the like post method logic.', err}
+        return {status: 500, message: CHECK_LIKE_POST_LOGIC, err}
     }
 }
 
 async function SharePost(){
-    return {status: 501, message: 'Share post method is not implemented yet.'}
+    return {status: 501, message: NOT_IMPLEMENTED_MESSAGE}
 }
 
 async function GetPostById(postId){
@@ -99,11 +109,11 @@ async function GetPostById(postId){
                 path: 'postOwner',
                 select: 'username'
             }})
-        return {status: 200, message: 'Post successfully fetched.', targetPost}
+        return {status: 200, message: POST_FETCHED_SUCCESS, targetPost}
     }
     catch(err)
     {
-        return {status: 500, message: 'Something went wrong, it is likely that a post with such ID does not exist. Check again.', err}
+        return {status: 500, message: POST_FETCH_ERROR, err}
     }
 }
 
@@ -117,11 +127,11 @@ async function GetPostsByUser(UserID){
                 path: 'postOwner',
                 select: 'username'
             }})
-        return {status: 200, message: 'Post successfully fetched.', targetPost}
+        return {status: 200, message: POST_FETCHED_SUCCESS, targetPost}
     }
     catch(err)
     {
-        return {status: 500, message: 'Something went wrong, it is likely that a post with such ID does not exist. Check again.', err}
+        return {status: 500, message: POST_FETCH_ERROR, err}
     }
 }
 
@@ -129,7 +139,6 @@ async function GetAllPosts()
 {
     try
     {
-        //TODO: Consider fetching the top 10 or so posts, if I fetch all of them, it may be too much
         let allPostsList = await Post.find({
             postParent: { $exists: false }
         }).populate('postOwner', 'username')
@@ -139,11 +148,11 @@ async function GetAllPosts()
               select: 'username'
             }})
        
-        return {status: 200, message: 'Posts successfully fetched.', allPostsList}
+        return {status: 200, message: POST_FETCHED_SUCCESS, allPostsList}
     }
     catch(err)
     {
-        return {status: 500, message: 'Something went wrong.', err}
+        return {status: 500, message: POST_FETCH_ERROR, err}
     }
 }
 
