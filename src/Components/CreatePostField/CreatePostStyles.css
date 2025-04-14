@@ -11,4 +11,9 @@
 .CreatePostField:hover {
   background-color: rgb(220, 220, 220) !important;
   cursor: pointer;
+}
+
+.CreatePostModalInputField {
+  resize: none;
+  overflow-y: scroll;
 }/*# sourceMappingURL=CreatePostStyles.css.map */
