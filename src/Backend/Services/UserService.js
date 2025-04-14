@@ -13,7 +13,7 @@ const {
 } = require('../Utilities/Messages.js')
 
 async function CreateUser(username, password){
-    let UserObject = await IfUserExists(username)
+    let UserObject = await IfUserExists_Username(username)
     if( UserObject.doesUserExist )
     {
         return{status: 409, message: USERNAME_TAKEN}
@@ -39,7 +39,7 @@ async function CreateUser(username, password){
 
 async function LoginUser(username, password)
 {
-    let UserObject = await IfUserExists(username)
+    let UserObject = await IfUserExists_Username(username)
     if(UserObject.doesUserExist)
     {
         if(await bcrypt.compare(password, UserObject.targetUser[0].password))
@@ -60,12 +60,12 @@ async function LoginUser(username, password)
     }
 }
 
-async function DeleteUser(username){
-    let UserObject = await IfUserExists(username)
+async function DeleteUser(userID){
+    let UserObject = await IfUserExists(userID)
     if(UserObject.doesUserExist)
     {
         try{
-            await User.findOneAndDelete({username: username})
+            await User.findOneAndDelete({_id: userID})
             return {status: 200, message: USER_DELETE_SUCCESS}
         }
         catch(err)
@@ -80,8 +80,20 @@ async function DeleteUser(username){
    
 }
 
-async function IfUserExists(username){
-    const targetUser = await User.find({username: username})
+async function IfUserExists(UserID){
+    const targetUser = await User.findById({_id: UserID})
+    if(targetUser?._id)
+    {
+        return {'doesUserExist': true, 'targetUser': targetUser}
+    }
+    else
+    {
+        return {'doesUserExist': false}
+    }
+}
+
+async function IfUserExists_Username(Username){
+    const targetUser = await User.find({username: Username})
     if(targetUser.length > 0)
     {
         return {'doesUserExist': true, 'targetUser': targetUser}
@@ -94,4 +106,4 @@ async function IfUserExists(username){
 
 
 
-module.exports = {CreateUser, LoginUser, DeleteUser, IfUserExists}
+module.exports = {CreateUser, LoginUser, DeleteUser, IfUserExists, IfUserExists_Username}

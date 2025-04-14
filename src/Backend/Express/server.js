@@ -7,7 +7,8 @@ const MongoStore = require('connect-mongodb-session')(session)
 const {
     USER_NOT_REGISTERED, 
     USER_REGISTERED,
-    PASSWORD_CRITERIA_NOT_MET
+    PASSWORD_CRITERIA_NOT_MET,
+    NOT_AUTHORIZED
 } = require('../Utilities/Messages.js')
 let MongoSessionStore = new MongoStore({
     uri: 'mongodb://localhost:27017/testmongodb',
@@ -75,11 +76,28 @@ app.post('/user/register', async (req,res) => {
     }
 })
 
-app.delete('/user/delete/:username', async (req,res) => {
-    let username = req.params.username
-    let result = await DeleteUser(username)
-
-    res.status(result.status).send({message: result.message})
+app.delete('/user/delete/:userID', async (req,res) => {
+    let userID = req.params.userID
+    if(userID != req.session.userID)
+    {
+        res.status(409).send({message: NOT_AUTHORIZED})
+    }
+    else
+    {
+        let result = await DeleteUser(userID)
+        if(result.status==200)
+        {
+            req.session.destroy(() => {
+           
+                res.status(200).send('Deleted profile and logged out')
+            })
+        }
+        else
+        {
+            res.status(result.status).send({message: result.message})
+        }
+    }
+    
 })
 
 app.get('/user/isRegistered', async(req,res)=>{
@@ -89,6 +107,17 @@ app.get('/user/isRegistered', async(req,res)=>{
     else
     {
         res.status(401).send({'isRegistered': false, message: USER_NOT_REGISTERED})
+    }
+})
+
+app.get('/user/get/currentUser', async(req,res) => {
+    if(req.session.userID)
+    {
+        res.status(200).send({'userID': req.session.userID, 'message': 'Retrieved user'})
+    }
+    else
+    {
+        res.status(401).send({'message': 'User not found'})
     }
 })
 
