@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import NavigationBar from '../Navbar/Navbar.jsx'
 import Post from '../Post/Post.jsx'
 import Axios from 'axios'
 import useAuth from '../../Hooks/useAuth.js'
-import './HomeStyles.css'
-import { Card } from 'react-bootstrap'
+import CreatePost from '../CreatePostField/CreatePost.jsx'
 export default function Home() {
   const [posts, setPosts] = useState([])
   
@@ -25,12 +23,7 @@ export default function Home() {
   return (
     <div>
       Home  
-      <Card 
-      placeholder='Create a post'
-      className='CreatePostField'
-      >
-        How is your cyber security journey going?
-      </Card>
+     <CreatePost/>
       {posts.length > 0 ?
         posts.map((post) => {
         return(<Post postObject={post}/>)
