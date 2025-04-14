@@ -106,7 +106,11 @@ app.post('/post/create', async(req,res) => {
     let result = await CreatePost(postContent, postParentId, postOwnerId)
     res.status(result.status).send({'message':result.message})
 })
-
+//TODO: Implement user post deletion on the front end
+//TODO: Add endpoint for getting a user's posts
+//TODO: Make the UI reflect post changes in real time
+//TODO: Sort posts by date time, then likes
+//TODO: Dockerize application once ready
 app.delete('/post/delete/:postId', async(req,res) => {
     const currentUserId = req.session.userID;
     const postId = req.params.postId;

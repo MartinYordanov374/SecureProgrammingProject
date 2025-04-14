@@ -130,7 +130,6 @@ export default function Post({postObject=undefined, isComment=false})
                   <div className='col interactionButton' onClick={() => {HandleCommentSectionVisibility(localPostObject?._id)}}>
                   {localPostObject?.comments?.length == 0 ? 0 : localPostObject?.comments?.length}  Comments
                   </div>
-                  <div className='col interactionButton'>Share</div>
                 </>
               
               }
