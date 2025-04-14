@@ -23,13 +23,16 @@ export default function Home() {
   return (
     <div>
       Home  
+      {isRegistered ?
      <CreatePost/>
-      {posts.length > 0 ?
-        posts.map((post) => {
-        return(<Post postObject={post}/>)
-        })
+     : ""}
+      {posts.length > 0 
+        ?
+          posts.map((post) => {
+            return(<Post postObject={post}/>)
+          })
         :
-        <h1 style={{'textAlign':'center'}}>There are no posts yet. Create one!</h1>
+          <h1 style={{'textAlign':'center'}}>There are no posts yet. Create one!</h1>
 
       }
       
