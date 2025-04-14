@@ -16,4 +16,18 @@
 .CreatePostModalInputField {
   resize: none;
   overflow-y: scroll;
+}
+
+.CreateCommentField {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(240, 240, 240) !important;
+  padding: 1% !important;
+  padding-left: 2% !important;
+  font-size: medium;
+  border-radius: 40px !important;
+}
+.CreateCommentField:hover {
+  background-color: rgb(220, 220, 220) !important;
+  cursor: pointer;
 }/*# sourceMappingURL=CreatePostStyles.css.map */

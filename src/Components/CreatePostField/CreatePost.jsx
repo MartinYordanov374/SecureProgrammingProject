@@ -2,12 +2,11 @@ import React, { useState } from 'react'
 import './CreatePostStyles.css'
 import { Button, Card, FormControl, Modal } from 'react-bootstrap'
 import Axios from 'axios'
-
-export default function CreatePost() 
+import {ToastContainer, toast} from 'react-toastify'
+export default function CreatePost({parentId=-1, className='CreatePostField', placeholder='How is your cyber security journey going?'}) 
 {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [postContent, setPostContent] = useState('')
-  const [parentId, setParentId] = useState(-1)
 
   const hideModal = () => {
     setIsModalOpen(false)
@@ -32,29 +31,30 @@ export default function CreatePost()
         {withCredentials: true}
     )
     .then((res) => {
-        console.log(res)
+        toast.success(res.data.message)
     })
     .catch((err) => {
-        console.log(err)
+        toast.error(err.response.data.message)
     })
 
   }
   return (
     <>
+    <ToastContainer/>
     <Card 
-    className='CreatePostField'
+    className={className} //'CreatePostField', 'CreateCommentField'
     onClick={() => {handleCreatePostClick()}}
     >
-      How is your cyber security journey going?
+      {placeholder}
     </Card>
 
     <Modal show={isModalOpen} onHide={hideModal} onShow={showModal}>
-        <Modal.Header>Create post</Modal.Header>
+        <Modal.Header>Share your thoughts!</Modal.Header>
         <Modal.Body>
             <FormControl 
                 as='textarea'
                 rows={2}
-                placeholder='How is your cyber security journey going?'
+                placeholder={placeholder}
                 className='CreatePostModalInputField'
                 onChange={(e) => setPostContent(e.target.value)}
             />

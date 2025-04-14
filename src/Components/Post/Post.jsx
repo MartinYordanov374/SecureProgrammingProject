@@ -4,6 +4,7 @@ import './PostStyles.css'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import NavigationBar from '../Navbar/Navbar.jsx'
 import Axios from 'axios'
+import CreatePost from '../CreatePostField/CreatePost.jsx'
 
 export default function Post({postObject=undefined, isComment=false}) 
 {
@@ -126,9 +127,9 @@ export default function Post({postObject=undefined, isComment=false})
 
             </div>
           </Card>
-        
-            {localPostObject?.comments?.length > 0 ? 
+            {localPostObject?.comments?.length >= 0 ? 
                 <Card className='commentSection' id={localPostObject?._id}>
+                  <CreatePost className='CreateCommentField' placeholder='Write a comment' parentId={localPostObject?._id}/>
                   {localPostObject?.comments.map((comment) => {
                     return(<Post postObject={comment} isComment={true}/>)
                   })}
