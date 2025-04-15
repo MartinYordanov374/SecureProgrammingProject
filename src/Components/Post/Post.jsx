@@ -57,17 +57,17 @@ export default function Post({postObject=undefined, isComment=false})
       setLoading(false)
     })
     .catch((err) => {
-       console.log(err)
+      //  console.log(err)
     })
   }
 
   const HandleLikePost = async() => {
     await Axios.post(`http://localhost:5001/post/like/${localPostObject._id}`, {}, {withCredentials: true})
     .then((res) => {
-      console.log(res)
+      // console.log(res)
     })
     .catch((err) => {
-      console.log(err)
+      // console.log(err)
     })
   }
 
@@ -75,10 +75,10 @@ export default function Post({postObject=undefined, isComment=false})
     await Axios.delete(`http://localhost:5001/post/delete/${localPostObject?._id}`, 
       {withCredentials: true})
     .then((res) => {
-      console.log(res)
+      // console.log(res)
     })
     .catch((err) => {
-      console.log(err)
+      // console.log(err)
     })
   }
 

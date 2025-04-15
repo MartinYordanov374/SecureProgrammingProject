@@ -26,7 +26,7 @@ export default function Profile() {
       setUserPosts(res.data.post)
     })
     .catch((err) => {
-      console.log(err)
+      // console.log(err)
       toast.error(err.response.data.message)
     })
   }
@@ -34,11 +34,11 @@ export default function Profile() {
   const getUserId = async() => {
     await Axios.get('http://localhost:5001/user/get/currentUser', {withCredentials: true})
     .then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
       setCurrentUserData(res.data)
     })
     .catch((err) => {
-      console.log(err)
+      // console.log(err)
     })
   }
 
@@ -51,14 +51,14 @@ export default function Profile() {
     await Axios.delete(`http://localhost:5001/user/delete/${id}`, {withCredentials: true})
     .then((res) => {      
       hideModal()
-      console.log(res.data)
+      // console.log(res.data)
       toast.success(res.data)
       setTimeout(() => {
         window.location.href='/'
       }, (2500));
     })
     .catch((err) => {
-      console.log(err.response.data.message)
+      // console.log(err.response.data.message)
     })
     
   }

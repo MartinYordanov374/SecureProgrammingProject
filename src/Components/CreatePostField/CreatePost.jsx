@@ -45,7 +45,7 @@ export default function CreatePost(
     }
     catch(err)
     {
-      console.log(err)
+      // console.log(err)
     }
 
   }

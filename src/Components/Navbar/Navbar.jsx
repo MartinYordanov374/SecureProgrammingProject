@@ -13,7 +13,7 @@ export default function NavigationBar()
         window.location.href='/'
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
     }
 
@@ -26,7 +26,7 @@ export default function NavigationBar()
       setUserID(res.data.userID)
     })
     .catch((err) => {
-      console.log(err)
+      // console.log(err)
     })
   }
   useEffect(()=>{

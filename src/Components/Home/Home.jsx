@@ -14,7 +14,7 @@ export default function Home() {
       setPosts(res.data.posts.reverse())
     })
     .catch((err) => {
-      console.log(err)
+      // console.log(err)
     })
   }
   useEffect(() => {

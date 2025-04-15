@@ -90,7 +90,6 @@ async function LikePost(postId, likerId){
     }
     catch(err)
     {
-        console.log(err)
         return {status: 500, message: CHECK_LIKE_POST_LOGIC, err}
     }
 }

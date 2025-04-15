@@ -33,7 +33,7 @@ export default function Register() {
           }, 2500);
           })
           .catch((err) => {
-            console.log(err)
+            // console.log(err)
             toast.error(err.response.data.message)
           })
       }

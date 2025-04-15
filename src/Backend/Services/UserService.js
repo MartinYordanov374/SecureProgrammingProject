@@ -74,10 +74,10 @@ async function DeleteUser(userID){
                 }
             })
             .then((res) => {
-                console.log(res)
+                // console.log(res)
             })
             .catch((err) => {
-                console.log(err)
+                // console.log(err)
             })
            console.log(targetUserPostIds)
             await User.findOneAndDelete({_id: userID})
