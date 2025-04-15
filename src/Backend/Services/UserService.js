@@ -1,4 +1,5 @@
 const User = require('../Mongo/Schemas/User')
+const Post = require('../Mongo/Schemas/Post')
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10
 const {
@@ -11,6 +12,7 @@ const {
     USER_DELETE_NOT_FOUND,
     USER_DELETE_ERROR
 } = require('../Utilities/Messages.js')
+const { GetPostsByUser } = require('./PostService.js')
 
 async function CreateUser(username, password){
     let UserObject = await IfUserExists_Username(username)
@@ -65,7 +67,21 @@ async function DeleteUser(userID){
     if(UserObject.doesUserExist)
     {
         try{
+            let targetUserPostIds = (await GetPostsByUser(userID)).targetPost.map((post) => {return post._id})
+            await Post.deleteMany({
+                _id: {
+                    $in: targetUserPostIds    
+                }
+            })
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+           console.log(targetUserPostIds)
             await User.findOneAndDelete({_id: userID})
+
             return {status: 200, message: USER_DELETE_SUCCESS}
         }
         catch(err)

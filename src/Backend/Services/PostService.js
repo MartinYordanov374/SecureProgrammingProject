@@ -141,7 +141,8 @@ async function GetAllPosts()
     {
         let allPostsList = await Post.find({
             postParent: { $exists: false }
-        }).populate('postOwner', 'username')
+        })
+        .populate('postOwner', 'username')
         .populate({path: 'comments',
             populate: {
               path: 'postOwner',
