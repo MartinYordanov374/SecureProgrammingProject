@@ -20,7 +20,8 @@ const messages = {
     'USER_DELETE_NOT_FOUND': 'The user you are trying to delete does not exist',
     'PASSWORD_CRITERIA_NOT_MET': 'This password does not match the criteria. The password should be at least 8 characters long. It should include at least one upper-case letter and at least one special character.',
     'USER_REGISTERED': 'The current user instance is registered',
-    'USER_NOT_REGISTERED': 'The current user instance is not registered'
+    'USER_NOT_REGISTERED': 'The current user instance is not registered',
+    'INTERNAL_SERVER_ERROR': 'Something went wrong on the server-side, check the backend code.'
 }
 
 module.exports = messages
