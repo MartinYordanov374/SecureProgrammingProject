@@ -24,4 +24,14 @@
 }
 .postContainer .readMoreButton:hover {
   cursor: pointer;
+}
+.postContainer .postHeader {
+  display: inline;
+}
+.postContainer .DeletePostBtn {
+  margin-left: 90%;
+  color: red;
+}
+.postContainer .DeletePostBtn:hover {
+  cursor: pointer;
 }/*# sourceMappingURL=PostStyles.css.map */

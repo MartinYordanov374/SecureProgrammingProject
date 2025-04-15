@@ -28,4 +28,15 @@
             cursor: pointer;
         }
     }
+
+    .postHeader{
+        display: inline;
+     }
+     .DeletePostBtn{
+         &:hover{
+             cursor: pointer; 
+         }
+         margin-left: 90%;
+         color: red;
+     }
 }

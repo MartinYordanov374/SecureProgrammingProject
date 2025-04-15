@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import {Container, Card} from 'react-bootstrap'
 import './PostStyles.css'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import NavigationBar from '../Navbar/Navbar.jsx'
+import { useNavigate, useParams } from 'react-router-dom'
 import Axios from 'axios'
 import CreatePost from '../CreatePostField/CreatePost.jsx'
 import useAuth from '../../Hooks/useAuth.js'
+import {FaTrashAlt} from 'react-icons/fa'
 
 export default function Post({postObject=undefined, isComment=false}) 
 {
@@ -15,6 +15,7 @@ export default function Post({postObject=undefined, isComment=false})
   const [localPostObject, setLocalPostObject] = useState(postObject);
   const [isSpecificPostPage, setIsSpecificPostPage] = useState(false)
   const [isRegistered, isLoading] = useAuth()
+  const [currentUserId, setCurrentUserID] = useState(-1)
   const {id} = useParams()
 
   const HandleCommentSectionVisibility = (id) => {
@@ -70,15 +71,23 @@ export default function Post({postObject=undefined, isComment=false})
     })
   }
 
+  const getUserId = async() => {
+    await Axios.get('http://localhost:5001/user/get/currentUser', {withCredentials: true})
+    .then((res) => {
+      setCurrentUserID(res.data.userID)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
+
   useEffect(() => {
-    if(postObject==undefined)
-    {
+
       GetTargetPost()
-    }
-    else
-    {
+      getUserId()
       setLoading(false)
-    }
+    
   }, [])
 
   return (
@@ -89,12 +98,20 @@ export default function Post({postObject=undefined, isComment=false})
       :
         <Container className='postContainer' style={{width:'50%'}} key={localPostObject?._id}>
           <Card>
+            <div className='postHeader'>
               <a 
-              className='postOwnerLink'
-              href={`/Profile/${localPostObject?.postOwner?._id}`}
-              >
-                {localPostObject?.postOwner?.username}
-              </a>
+                className='postOwnerLink'
+                href={`/Profile/${localPostObject?.postOwner?._id}`}
+                >
+                  {localPostObject?.postOwner?.username}
+                </a>
+               {currentUserId == localPostObject?.postOwner?._id
+               ?
+              <FaTrashAlt className='DeletePostBtn'/>
+              :
+              ""}
+            </div>
+            
               <hr/>
             <Card.Body className='PostBody' onClick={!isSpecificPostPage && !isComment? ()=>NavigateToPostPage() : ()=>{}}>
               {

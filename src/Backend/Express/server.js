@@ -189,8 +189,7 @@ app.post('/post/create', async(req,res) => {
     }
   
 })
-//TODO: Implement user post deletion on the front end
-//TODO: Make the UI reflect post changes in real time
+//TODO: Make the UI reflect comment changes in real time
 //TODO: Dockerize application once ready
 app.delete('/post/delete/:postId', async(req,res) => {
     try{
