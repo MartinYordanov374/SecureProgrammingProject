@@ -29,17 +29,24 @@ export default function CreatePost(
     }
   }
   const createPost = async() => {
-    await Axios.post(
+    try{
+      await Axios.post(
         'http://localhost:5001/post/create', 
         {'content': postContent, 'parentId': parentId}, 
         {withCredentials: true}
-    )
-    .then((res) => {
-        toast.success(res.data.message)
-    })
-    .catch((err) => {
-        toast.error(err.response.data.message)
-    })
+      )
+      .then((res) => {
+          toast.success(res.data.message)
+          hideModal()
+      })
+      .catch((err) => {
+          toast.error(err.response.data.message)
+      })
+    }
+    catch(err)
+    {
+      console.log(err)
+    }
 
   }
   return (

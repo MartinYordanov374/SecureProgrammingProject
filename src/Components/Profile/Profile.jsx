@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Button, Container, Modal} from 'react-bootstrap'
+import {Button, Container, Modal, Toast} from 'react-bootstrap'
 import Post from '../Post/Post.jsx'
 import { useParams } from 'react-router-dom'
 import Axios from 'axios'
@@ -34,8 +34,10 @@ export default function Profile() {
 
   const DeleteProfile = async() => {
     await Axios.delete(`http://localhost:5001/user/delete/${id}`, {withCredentials: true})
-    .then((res) => {
-      console.log(res)
+    .then((res) => {      
+      hideModal()
+      console.log(res.data)
+      toast.success(res.data)
       setTimeout(() => {
         window.location.href='/'
       }, (2500));
@@ -51,7 +53,7 @@ export default function Profile() {
   return (
     <div>
         <Container>
-            
+            <ToastContainer/>
             <p>My profile</p>
             <Button className='btn-danger' onClick={() => HandleDeleteProfile()}>  Delete my profile </Button>
             {userPosts.map((post) => {
