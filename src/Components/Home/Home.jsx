@@ -19,7 +19,7 @@ export default function Home() {
   }
   useEffect(() => {
     GetPosts()
-  }, [])
+  }, [posts])
   return (
     <div>
       Home  
