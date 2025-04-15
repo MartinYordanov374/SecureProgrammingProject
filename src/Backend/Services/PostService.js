@@ -49,7 +49,7 @@ async function DeletePost(requestUserID, targetPostId){
 
     try{
         const result = await GetPostById(targetPostId)
-        if(result.targetPost[0]?.postOwner.toString() == requestUserID)
+        if(result.targetPost[0]?.postOwner._id.toString() == requestUserID)
         {
             let res = await Post.findByIdAndDelete({_id: targetPostId})
             return {status: 200, message: POST_DELETED_SUCCESSFULLY}

@@ -71,6 +71,17 @@ export default function Post({postObject=undefined, isComment=false})
     })
   }
 
+  const handleDeletePost = async() => {
+    await Axios.delete(`http://localhost:5001/post/delete/${localPostObject?._id}`, 
+      {withCredentials: true})
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
   const getUserId = async() => {
     await Axios.get('http://localhost:5001/user/get/currentUser', {withCredentials: true})
     .then((res) => {
@@ -107,7 +118,7 @@ export default function Post({postObject=undefined, isComment=false})
                 </a>
                {currentUserId == localPostObject?.postOwner?._id
                ?
-              <FaTrashAlt className='DeletePostBtn'/>
+              <FaTrashAlt className='DeletePostBtn' onClick={() => {handleDeletePost()}}/>
               :
               ""}
             </div>
