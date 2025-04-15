@@ -94,10 +94,12 @@ export default function Post({postObject=undefined, isComment=false})
 
 
   useEffect(() => {
-
+    if (!postObject) {
       GetTargetPost()
-      getUserId()
+    } else {
       setLoading(false)
+    }
+    getUserId()
     
   }, [])
 

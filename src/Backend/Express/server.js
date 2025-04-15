@@ -189,7 +189,6 @@ app.post('/post/create', async(req,res) => {
     }
   
 })
-//TODO: Make the UI reflect comment changes in real time
 //TODO: Dockerize application once ready
 app.delete('/post/delete/:postId', async(req,res) => {
     try{

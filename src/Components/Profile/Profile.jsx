@@ -8,6 +8,8 @@ import {ToastContainer, toast} from 'react-toastify'
 export default function Profile() {
   let [userPosts, setUserPosts] = useState([])
   const [isModalShown, setIsModalShown] = useState(false)
+    const [currentUserData, setCurrentUserData] = useState({})
+  
 
   const showModal = () => {
     setIsModalShown(true)
@@ -24,9 +26,22 @@ export default function Profile() {
       setUserPosts(res.data.post)
     })
     .catch((err) => {
+      console.log(err)
       toast.error(err.response.data.message)
     })
   }
+
+  const getUserId = async() => {
+    await Axios.get('http://localhost:5001/user/get/currentUser', {withCredentials: true})
+    .then((res) => {
+      console.log(res.data)
+      setCurrentUserData(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
 
   const HandleDeleteProfile = () => {
     showModal()
@@ -49,16 +64,32 @@ export default function Profile() {
   }
   useEffect(() => {
     getUserPosts()
+    getUserId()
   }, [])
   return (
     <div>
         <Container>
             <ToastContainer/>
-            <p>My profile</p>
-            <Button className='btn-danger' onClick={() => HandleDeleteProfile()}>  Delete my profile </Button>
-            {userPosts.map((post) => {
-                return( <Post postObject={post}/>)
-            })}
+            <h2>Profile page</h2>
+
+            {currentUserData.userID == id
+            ?
+              <Button className='btn-danger' onClick={() => HandleDeleteProfile()}>  Delete my profile </Button>
+            :
+              ""
+            }
+            <div>
+              <br></br>
+              <h4>User posts</h4>
+                {userPosts.length > 0 ?
+                  userPosts.map((post) => {
+                    return( <Post postObject={post}/>)
+                  })
+                  :
+                  <p>You do not have any posts yet.</p>
+                }
+            </div>
+            
 
             <Modal onShow={showModal} onHide={hideModal} show={isModalShown}>
               <Modal.Body>Are you sure you want to delete your profile?</Modal.Body>
