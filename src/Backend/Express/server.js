@@ -3,25 +3,41 @@ const connectToMongoDb = require('../Mongo/Mongoose/mongoose')
 const cors = require('cors');
 const app = express()
 const session = require('express-session')
+const rateLimit = require('express-rate-limit')
 const MongoStore = require('connect-mongodb-session')(session)
+
 const {
     USER_NOT_REGISTERED, 
     USER_REGISTERED,
     PASSWORD_CRITERIA_NOT_MET,
     NOT_AUTHORIZED,
-    INTERNAL_SERVER_ERROR
+    INTERNAL_SERVER_ERROR,
+    RATE_LIMIT_MESSAGE
 } = require('../Utilities/Messages.js')
+
 let MongoSessionStore = new MongoStore({
     uri: 'mongodb://localhost:27017/testmongodb',
     collection: 'userSessions'
 })
 
+const AuthRateLimiter = rateLimit({
+    windowMs: 1*60*1000,
+    max: 20,
+    message: {message: RATE_LIMIT_MESSAGE}
+})
+
+const PostRateLimiter = rateLimit({
+    windowMs: 2*60*1000,
+    max: 100,
+    message: {message: RATE_LIMIT_MESSAGE}
+})
 const APP_PORT = 5001
 
 const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js')
 const { CreatePost, DeletePost, LikePost, GetAllPosts, GetPostById, GetPostsByUser } = require('../Services/PostService.js')
 
 const PASSWORD_REGEX = /^(?=.*\w)(?=.*[A-Z]){1,}(?=.*\W).{8,}$/
+
 
 app.use(express.json())
 
@@ -41,7 +57,7 @@ app.use(session({
     secret: 'This should not be here',
 }))
 
-app.post('/user/login', async (req,res)  => {
+app.post('/user/login', AuthRateLimiter, async (req,res)  => {
     try{
         let username = req.body.username
         let password = req.body.password
@@ -64,12 +80,13 @@ app.post('/user/login', async (req,res)  => {
     }
     catch(err)
     {
+        console.log('RATE LIMITED OR SOMETHING')
         res.status(500).send({'message': INTERNAL_SERVER_ERROR, err})
     }
     
 })
 
-app.post('/user/register', async (req,res) => {
+app.post('/user/register', AuthRateLimiter, async (req,res) => {
     try
     {
         let username = req.body.username
@@ -175,7 +192,7 @@ app.post('/user/logout', async(req,res) => {
 
 })
 
-app.post('/post/create', async(req,res) => {
+app.post('/post/create', PostRateLimiter, async(req,res) => {
     try{
         const postOwnerId = req.session.userID;
         const postContent = req.body.content;
@@ -190,7 +207,7 @@ app.post('/post/create', async(req,res) => {
   
 })
 //TODO: Dockerize application once ready
-app.delete('/post/delete/:postId', async(req,res) => {
+app.delete('/post/delete/:postId', PostRateLimiter, async(req,res) => {
     try{
         const currentUserId = req.session.userID;
         const postId = req.params.postId;
@@ -204,7 +221,7 @@ app.delete('/post/delete/:postId', async(req,res) => {
     
 })
 
-app.post("/post/like/:postId", async(req,res) => {
+app.post("/post/like/:postId", PostRateLimiter, async(req,res) => {
     try
     {
         let postId = req.params.postId;
@@ -218,7 +235,7 @@ app.post("/post/like/:postId", async(req,res) => {
     }
 })
 
-app.get("/post/getAll", async(req,res) => {
+app.get("/post/getAll", PostRateLimiter, async(req,res) => {
     try{
         let result = await GetAllPosts();
         res.status(result.status).send({'message':result.message, 'posts': result.allPostsList})
@@ -230,7 +247,7 @@ app.get("/post/getAll", async(req,res) => {
    
 })
 
-app.get("/post/fetch/:postId", async(req,res) => {
+app.get("/post/fetch/:postId", PostRateLimiter, async(req,res) => {
     try{
         let result = await GetPostById(req.params.postId)
         res.status(result.status).send({'message':result.message, 'post': result.targetPost})
@@ -242,7 +259,7 @@ app.get("/post/fetch/:postId", async(req,res) => {
    
 })
 
-app.get("/post/fetch/owner/:userID", async(req,res) => {
+app.get("/post/fetch/owner/:userID", PostRateLimiter, async(req,res) => {
     try{
         let result = await GetPostsByUser(req.params.userID)
         res.status(result.status).send({'message':result.message, 'post': result.targetPost})

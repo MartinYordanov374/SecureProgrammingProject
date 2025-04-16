@@ -21,7 +21,8 @@ const messages = {
     'PASSWORD_CRITERIA_NOT_MET': 'This password does not match the criteria. The password should be at least 8 characters long. It should include at least one upper-case letter and at least one special character.',
     'USER_REGISTERED': 'The current user instance is registered',
     'USER_NOT_REGISTERED': 'The current user instance is not registered',
-    'INTERNAL_SERVER_ERROR': 'Something went wrong on the server-side, check the backend code.'
+    'INTERNAL_SERVER_ERROR': 'Something went wrong on the server-side, check the backend code.',
+    'RATE_LIMIT_MESSAGE': 'It seems like you are performing a certain action too rapidly in short time periods. Try again later.'
 }
 
 module.exports = messages
