@@ -16,7 +16,7 @@ const {
 } = require('../Utilities/Messages.js')
 
 let MongoSessionStore = new MongoStore({
-    uri: 'mongodb://localhost:27017/testmongodb',
+    uri: 'mongodb://mongo:27017/seprodb',
     collection: 'userSessions'
 })
 

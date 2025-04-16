@@ -1,15 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import NavigationBar from '../src/Components/Navbar/Navbar.jsx'
-import Home from './Components/Home/Home.jsx';
-import Login from './Components/Login/Login.jsx';
-import Post from './Components/Post/Post.jsx';
-import Register from './Components/Register/Register.jsx';
-import Error from './Components/Error/Error.jsx';
-import Profile from './Components/Profile/Profile.jsx';
-import withAuth from './Components/HOCs/withAuth.js'
-import withGuest from './Components/HOCs/withGuest.js'
+import NavigationBar from '../src/Frontend/Components/Navbar/Navbar.jsx'
+import Home from './Frontend/Components/Home/Home.jsx';
+import Login from './Frontend/Components/Login/Login.jsx';
+import Post from './Frontend/Components/Post/Post.jsx';
+import Register from './Frontend/Components/Register/Register.jsx';
+import Error from './Frontend/Components/Error/Error.jsx';
+import Profile from './Frontend/Components/Profile/Profile.jsx';
+import withAuth from './Frontend/Components/HOCs/withAuth.js'
+import withGuest from './Frontend/Components/HOCs/withGuest.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

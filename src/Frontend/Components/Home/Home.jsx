@@ -18,6 +18,7 @@ export default function Home() {
       setIsRateLimited(false)
     })
     .catch((err) => {
+      console.log(err)
       setRateLimitMessage(err.response.data.message)
       setIsRateLimited(true)
     })
