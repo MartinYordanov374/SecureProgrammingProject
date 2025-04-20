@@ -31,6 +31,12 @@ const PostRateLimiter = rateLimit({
     max: 100,
     message: {message: RATE_LIMIT_MESSAGE}
 })
+
+const RegularRateLimiter = rateLimit({
+    windowMs: 1*60*1000,
+    max: 1000,
+    message: {message: RATE_LIMIT_MESSAGE}
+})
 const APP_PORT = 5001
 
 const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js')
@@ -42,7 +48,7 @@ const PASSWORD_REGEX = /^(?=.*\w)(?=.*[A-Z]){1,}(?=.*\W).{8,}$/
 app.use(express.json())
 
 app.use(cors({
-    origin: ['http://localhost:3001','http://localhost:3000'],
+    origin: true,
     credentials: true
 }))
 
@@ -109,7 +115,7 @@ app.post('/user/register', AuthRateLimiter, async (req,res) => {
     
 })
 
-app.delete('/user/delete/:userID', async (req,res) => {
+app.delete('/user/delete/:userID', RegularRateLimiter, async (req,res) => {
     try{
         let userID = req.params.userID
         if(userID != req.session.userID)
@@ -140,7 +146,7 @@ app.delete('/user/delete/:userID', async (req,res) => {
     
 })
 
-app.get('/user/isRegistered', async(req,res)=>{
+app.get('/user/isRegistered', RegularRateLimiter, async(req,res)=>{
     try{
         if(req.session.userID){
             res.status(200).send({'isRegistered': true, message: USER_REGISTERED})
@@ -157,7 +163,7 @@ app.get('/user/isRegistered', async(req,res)=>{
     }
 })
 
-app.get('/user/get/currentUser', async(req,res) => {
+app.get('/user/get/currentUser', RegularRateLimiter, async(req,res) => {
     try{
         if(req.session.userID)
             {
@@ -175,7 +181,7 @@ app.get('/user/get/currentUser', async(req,res) => {
 
 })
 
-app.post('/user/logout', async(req,res) => {
+app.post('/user/logout', RegularRateLimiter, async(req,res) => {
     try
     {
         req.session.destroy(() => {

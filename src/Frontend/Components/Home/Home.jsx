@@ -11,7 +11,7 @@ export default function Home() {
   const [isRegistered, isLoading] = useAuth()
 
   const GetPosts = async() => {
-    await Axios.get('http://localhost:5001/post/getAll',{withCredentials: true})
+    await Axios.get('http://192.168.50.213:5001/post/getAll',{withCredentials: true})
     .then((res) => {
       setPosts(res.data.posts.reverse())
       setPostsModified(true)

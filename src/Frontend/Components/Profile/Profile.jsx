@@ -21,7 +21,7 @@ export default function Profile() {
   const {id} = useParams()
 
   const getUserPosts = async() => {
-    await Axios.get(`http://localhost:5001/post/fetch/owner/${id}`, {withCredentials: true})
+    await Axios.get(`http://192.168.50.213:5001/post/fetch/owner/${id}`, {withCredentials: true})
     .then((res) => {
       setUserPosts(res.data.post)
     })
@@ -32,7 +32,7 @@ export default function Profile() {
   }
 
   const getUserId = async() => {
-    await Axios.get('http://localhost:5001/user/get/currentUser', {withCredentials: true})
+    await Axios.get('http://192.168.50.213:5001/user/get/currentUser', {withCredentials: true})
     .then((res) => {
       // console.log(res.data)
       setCurrentUserData(res.data)
@@ -48,7 +48,7 @@ export default function Profile() {
   }
 
   const DeleteProfile = async() => {
-    await Axios.delete(`http://localhost:5001/user/delete/${id}`, {withCredentials: true})
+    await Axios.delete(`http://192.168.50.213:5001/user/delete/${id}`, {withCredentials: true})
     .then((res) => {      
       hideModal()
       // console.log(res.data)

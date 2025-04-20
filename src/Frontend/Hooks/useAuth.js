@@ -7,7 +7,7 @@ const useAuth = () => {
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         let CheckUserAuthStatus = async() => {
-            let result = await Axios.get('http://localhost:5001/user/isRegistered', {withCredentials: true})
+            let result = await Axios.get('http://192.168.50.213:5001/user/isRegistered', {withCredentials: true})
             .then((res) => {
                 setIsRegistered(res.data.isRegistered)
             })

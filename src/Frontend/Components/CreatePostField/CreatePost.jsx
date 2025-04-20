@@ -31,7 +31,7 @@ export default function CreatePost(
   const createPost = async() => {
     try{
       await Axios.post(
-        'http://localhost:5001/post/create', 
+        'http://192.168.50.213:5001/post/create', 
         {'content': postContent, 'parentId': parentId}, 
         {withCredentials: true}
       )

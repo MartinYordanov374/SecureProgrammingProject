@@ -8,7 +8,7 @@ export default function NavigationBar()
   const [userID, setUserID] = useState(-1)
   const handleLogOut = () => {
     async function LogOut(){
-      await Axios.post('http://localhost:5001/user/logout', {}, {withCredentials: true})
+      await Axios.post('http://192.168.50.213:5001/user/logout', {}, {withCredentials: true})
       .then((res) => {
         window.location.href='/'
       })
@@ -21,7 +21,7 @@ export default function NavigationBar()
     
   }
   const GetUserID = async() => {
-    await Axios.get('http://localhost:5001/user/get/currentUser', {withCredentials: true})
+    await Axios.get('http://192.168.50.213:5001/user/get/currentUser', {withCredentials: true})
     .then((res) => {
       setUserID(res.data.userID)
     })

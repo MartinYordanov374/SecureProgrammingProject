@@ -15,7 +15,7 @@ export default function Login() {
     
     if(username.trim() && password.trim())
     {
-      await Axios.post('http://localhost:5001/user/login', 
+      await Axios.post('http://192.168.50.213:5001/user/login', 
       {
         username,
         password
