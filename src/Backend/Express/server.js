@@ -108,18 +108,27 @@ app.post('/user/login', AuthRateLimiter, async (req,res)  => {
 app.post('/user/register', AuthRateLimiter, async (req,res) => {
     try
     {
-        let username = req.body.username
-        let password = req.body.password.trim()
-        if(!PASSWORD_REGEX.test(password))
+        let sanitized_body = sanitize(req.body)
+        let username = sanitized_body.username
+        let password = sanitized_body.password
+        if(typeof username == 'string' && typeof password == 'string')
         {
-            res.status(403).send({message:PASSWORD_CRITERIA_NOT_MET})
+            if(!PASSWORD_REGEX.test(password))
+            {
+                res.status(403).send({message:PASSWORD_CRITERIA_NOT_MET})
+            }
+            else
+            {
+                let result = await CreateUser(username, password)
+            
+                res.status(result.status).send({message: result.message})
+            }
         }
         else
         {
-            let result = await CreateUser(username, password)
-    
-            res.status(result.status).send({message: result.message})
+            res.status(500).send({'message':'Try using a different username or password'})
         }
+       
     }
     catch(err)
     {
