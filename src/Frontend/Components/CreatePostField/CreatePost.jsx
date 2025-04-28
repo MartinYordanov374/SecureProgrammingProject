@@ -3,6 +3,7 @@ import './CreatePostStyles.css'
 import { Button, Card, FormControl, Modal } from 'react-bootstrap'
 import Axios from 'axios'
 import {ToastContainer, toast} from 'react-toastify'
+
 export default function CreatePost(
     {
     parentId=-1, 
@@ -31,7 +32,7 @@ export default function CreatePost(
   const createPost = async() => {
     try{
       await Axios.post(
-        'http://192.168.50.213:5001/post/create', 
+        `${process.env.REACT_APP_BACKEND_ADDRESS}/post/create`, 
         {'content': postContent, 'parentId': parentId}, 
         {withCredentials: true}
       )

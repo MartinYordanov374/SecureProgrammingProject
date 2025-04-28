@@ -3,6 +3,7 @@ import Post from '../Post/Post.jsx'
 import Axios from 'axios'
 import useAuth from '../../Hooks/useAuth.js'
 import CreatePost from '../CreatePostField/CreatePost.jsx'
+
 export default function Home() {
   const [posts, setPosts] = useState([])
   const [postsModified, setPostsModified] = useState(false)
@@ -11,7 +12,7 @@ export default function Home() {
   const [isRegistered, isLoading] = useAuth()
 
   const GetPosts = async() => {
-    await Axios.get('http://192.168.50.213:5001/post/getAll',{withCredentials: true})
+    await Axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/post/getAll`,{withCredentials: true})
     .then((res) => {
       setPosts(res.data.posts.reverse())
       setPostsModified(true)

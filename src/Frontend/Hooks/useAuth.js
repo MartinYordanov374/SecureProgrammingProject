@@ -1,13 +1,12 @@
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 
-
 const useAuth = () => {
     const [isRegistered, setIsRegistered] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         let CheckUserAuthStatus = async() => {
-            let result = await Axios.get('http://192.168.50.213:5001/user/isRegistered', {withCredentials: true})
+            let result = await Axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/user/isRegistered`, {withCredentials: true})
             .then((res) => {
                 setIsRegistered(res.data.isRegistered)
             })

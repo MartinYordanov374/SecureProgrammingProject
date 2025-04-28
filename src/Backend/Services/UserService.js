@@ -10,10 +10,12 @@ const {
     WRONG_PASSWORD,
     USER_DELETE_SUCCESS,
     USER_DELETE_NOT_FOUND,
-    USER_DELETE_ERROR
+    USER_DELETE_ERROR,
+    USER_NOT_FOUND
 } = require('../Utilities/Messages.js')
 const { GetPostsByUser } = require('./PostService.js')
 
+//TODO: ADD SERVER-SIDE USERNAME VALIDATION, NO-SQL INJECTION IS POSSIBLE
 async function CreateUser(username, password){
     let UserObject = await IfUserExists_Username(username)
     if( UserObject.doesUserExist )
@@ -58,7 +60,7 @@ async function LoginUser(username, password)
     else
     {
         
-        return {status: 404, message: 'A user with such a username does not exist in our database.'}
+        return {status: 404, message: USER_NOT_FOUND}
     }
 }
 
@@ -79,7 +81,6 @@ async function DeleteUser(userID){
             .catch((err) => {
                 // console.log(err)
             })
-           console.log(targetUserPostIds)
             await User.findOneAndDelete({_id: userID})
 
             return {status: 200, message: USER_DELETE_SUCCESS}

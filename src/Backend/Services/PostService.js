@@ -40,6 +40,7 @@ async function CreatePost(content, parentPostId, ownerId){
     }
     catch(err)
     {
+        console.log(err)
         return {status: 501, message: QUERY_ERROR}
     }
     
@@ -92,10 +93,6 @@ async function LikePost(postId, likerId){
     {
         return {status: 500, message: CHECK_LIKE_POST_LOGIC, err}
     }
-}
-
-async function SharePost(){
-    return {status: 501, message: NOT_IMPLEMENTED_MESSAGE}
 }
 
 async function GetPostById(postId){
@@ -156,4 +153,4 @@ async function GetAllPosts()
     }
 }
 
-module.exports = {CreatePost, DeletePost, LikePost, SharePost, GetAllPosts, GetPostById, GetPostsByUser}
+module.exports = {CreatePost, DeletePost, LikePost, GetAllPosts, GetPostById, GetPostsByUser}

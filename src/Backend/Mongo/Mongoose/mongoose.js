@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
+const {loadEnvFile} = require('process')
+loadEnvFile('../../../.env')
 
 const connectToMongoDb = async () => {
     try{
-        await mongoose.connect('mongodb://mongo:27017/seprodb', {
+        await mongoose.connect(`${process.env.MONGOOSE_CONNECTION_STRING}`, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })

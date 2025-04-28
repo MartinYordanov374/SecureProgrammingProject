@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import Axios from 'axios'
 import {ToastContainer, toast} from 'react-toastify'
 
+
 export default function Profile() {
   let [userPosts, setUserPosts] = useState([])
   const [isModalShown, setIsModalShown] = useState(false)
@@ -21,7 +22,7 @@ export default function Profile() {
   const {id} = useParams()
 
   const getUserPosts = async() => {
-    await Axios.get(`http://192.168.50.213:5001/post/fetch/owner/${id}`, {withCredentials: true})
+    await Axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/post/fetch/owner/${id}`, {withCredentials: true})
     .then((res) => {
       setUserPosts(res.data.post)
     })
@@ -32,7 +33,7 @@ export default function Profile() {
   }
 
   const getUserId = async() => {
-    await Axios.get('http://192.168.50.213:5001/user/get/currentUser', {withCredentials: true})
+    await Axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/user/get/currentUser`, {withCredentials: true})
     .then((res) => {
       // console.log(res.data)
       setCurrentUserData(res.data)
@@ -48,7 +49,7 @@ export default function Profile() {
   }
 
   const DeleteProfile = async() => {
-    await Axios.delete(`http://192.168.50.213:5001/user/delete/${id}`, {withCredentials: true})
+    await Axios.delete(`${process.env.REACT_APP_BACKEND_ADDRESS}/user/delete/${id}`, {withCredentials: true})
     .then((res) => {      
       hideModal()
       // console.log(res.data)

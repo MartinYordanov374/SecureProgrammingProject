@@ -5,6 +5,10 @@ const app = express()
 const session = require('express-session')
 const rateLimit = require('express-rate-limit')
 const MongoStore = require('connect-mongodb-session')(session)
+const sanitize = require('mongo-sanitize')
+
+const {loadEnvFile} = require('process')
+loadEnvFile('../../../.env')
 
 const {
     USER_NOT_REGISTERED, 
@@ -16,7 +20,7 @@ const {
 } = require('../Utilities/Messages.js')
 
 let MongoSessionStore = new MongoStore({
-    uri: 'mongodb://mongo:27017/seprodb',
+    uri: `${process.env.MONGOOSE_CONNECTION_STRING}`,
     collection: 'userSessions'
 })
 
@@ -37,18 +41,17 @@ const RegularRateLimiter = rateLimit({
     max: 1000,
     message: {message: RATE_LIMIT_MESSAGE}
 })
-const APP_PORT = 5001
+const APP_PORT = process.env.SERVER_PORT
 
 const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js')
 const { CreatePost, DeletePost, LikePost, GetAllPosts, GetPostById, GetPostsByUser } = require('../Services/PostService.js')
 
 const PASSWORD_REGEX = /^(?=.*\w)(?=.*[A-Z]){1,}(?=.*\W).{8,}$/
 
-
 app.use(express.json())
 
 app.use(cors({
-    origin: true,
+    origin: [process.env.ORIGIN, process.env.REMOTE_ORIGIN],
     credentials: true
 }))
 
@@ -57,35 +60,45 @@ app.use(session({
     cookie: {
         maxAge: 3600*60*24*7,
         path: '/',
-        httpOnly: true
+        httpOnly: true,
+        sameSite: true
     },
     saveUninitialized: false,
-    secret: 'This should not be here',
+    secret: process.env.SESSION_SECRET
 }))
+
 
 app.post('/user/login', AuthRateLimiter, async (req,res)  => {
     try{
-        let username = req.body.username
-        let password = req.body.password
-    
-        if(!PASSWORD_REGEX.test(password))
+        let sanitized_body = sanitize(req.body)
+        let username = sanitized_body.username
+        let password = sanitized_body.password
+        if(typeof username == 'string' && typeof password == 'string')
         {
-            res.status(403).send({message: PASSWORD_CRITERIA_NOT_MET})
+            if(!PASSWORD_REGEX.test(password))
+                {
+                    res.status(403).send({message: PASSWORD_CRITERIA_NOT_MET})
+                }
+            else
+                {
+                        let result = await LoginUser(username, password)
+                        if(result.status == 200)
+                        {
+                            const userID = result.UserId
+                            req.session.userID = userID
+                            req.session.save(()=>{});
+                        }
+                        res.status(result.status).send({message: result.message})
+                }
         }
         else
         {
-            let result = await LoginUser(username, password)
-            if(result.status == 200)
-            {
-                const userID = result.UserId
-                req.session.userID = userID
-                req.session.save(()=>{});
-            }
-            res.status(result.status).send({message: result.message})
+            res.status(500).send({'message': 'Try using a different username or password'})
         }
     }
     catch(err)
     {
+        console.log(err)
         console.log('RATE LIMITED OR SOMETHING')
         res.status(500).send({'message': INTERNAL_SERVER_ERROR, err})
     }
@@ -208,11 +221,12 @@ app.post('/post/create', PostRateLimiter, async(req,res) => {
     }
     catch(err)
     {
+        console.log(err)
         res.status(500).send({'message': INTERNAL_SERVER_ERROR, err})
     }
   
 })
-//TODO: Dockerize application once ready
+
 app.delete('/post/delete/:postId', PostRateLimiter, async(req,res) => {
     try{
         const currentUserId = req.session.userID;

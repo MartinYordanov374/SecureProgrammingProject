@@ -20,7 +20,7 @@ export default function Register() {
     {
       if(trimmedConfirmationPass == trimmedPass)
       {
-        await Axios.post('http://192.168.50.213:5001/user/register', 
+        await Axios.post(`${process.env.REACT_APP_BACKEND_ADDRESS}/user/register`, 
           {
             username,
             password

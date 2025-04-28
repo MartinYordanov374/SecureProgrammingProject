@@ -50,7 +50,7 @@ export default function Post({postObject=undefined, isComment=false})
   }
 
   const GetTargetPost = async() => {
-    await Axios.get(`http://192.168.50.213:5001/post/fetch/${id}`)
+    await Axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/post/fetch/${id}`)
     .then((res) => {
       setLocalPostObject(res.data.post[0])
       setIsSpecificPostPage(true)
@@ -62,7 +62,7 @@ export default function Post({postObject=undefined, isComment=false})
   }
 
   const HandleLikePost = async() => {
-    await Axios.post(`http://192.168.50.213:5001/post/like/${localPostObject._id}`, {}, {withCredentials: true})
+    await Axios.post(`${process.env.REACT_APP_BACKEND_ADDRESS}/post/like/${localPostObject._id}`, {}, {withCredentials: true})
     .then((res) => {
       // console.log(res)
     })
@@ -72,7 +72,7 @@ export default function Post({postObject=undefined, isComment=false})
   }
 
   const handleDeletePost = async() => {
-    await Axios.delete(`http://192.168.50.213:5001/post/delete/${localPostObject?._id}`, 
+    await Axios.delete(`${process.env.REACT_APP_BACKEND_ADDRESS}/post/delete/${localPostObject?._id}`, 
       {withCredentials: true})
     .then((res) => {
       // console.log(res)
@@ -83,7 +83,7 @@ export default function Post({postObject=undefined, isComment=false})
   }
 
   const getUserId = async() => {
-    await Axios.get('http://192.168.50.213:5001/user/get/currentUser', {withCredentials: true})
+    await Axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/user/get/currentUser`, {withCredentials: true})
     .then((res) => {
       setCurrentUserID(res.data.userID)
     })

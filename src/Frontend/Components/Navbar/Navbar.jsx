@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import {NavItem, Navbar, NavLink, NavbarBrand, Nav} from 'react-bootstrap'
 import useAuth from '../../Hooks/useAuth.js'
 import Axios from 'axios'
+
 export default function NavigationBar() 
 {
   const [isRegistered, isLoading] = useAuth();
   const [userID, setUserID] = useState(-1)
   const handleLogOut = () => {
     async function LogOut(){
-      await Axios.post('http://192.168.50.213:5001/user/logout', {}, {withCredentials: true})
+      await Axios.post(`${process.env.REACT_APP_BACKEND_ADDRESS}/user/logout`, {}, {withCredentials: true})
       .then((res) => {
         window.location.href='/'
       })
@@ -21,7 +22,7 @@ export default function NavigationBar()
     
   }
   const GetUserID = async() => {
-    await Axios.get('http://192.168.50.213:5001/user/get/currentUser', {withCredentials: true})
+    await Axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/user/get/currentUser`, {withCredentials: true})
     .then((res) => {
       setUserID(res.data.userID)
     })
