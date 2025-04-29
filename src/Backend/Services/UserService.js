@@ -15,8 +15,9 @@ const {
 } = require('../Utilities/Messages.js')
 const { GetPostsByUser } = require('./PostService.js')
 
-//TODO: ADD SERVER-SIDE USERNAME VALIDATION, NO-SQL INJECTION IS POSSIBLE
+// function for creating user
 async function CreateUser(username, password){
+    // Check if a user with this username exists
     let UserObject = await IfUserExists_Username(username)
     if( UserObject.doesUserExist )
     {
@@ -24,6 +25,7 @@ async function CreateUser(username, password){
     }
     else
     {
+        // hash the plaintext password
         const hashedPass = await bcrypt.hash(password, SALT_ROUNDS)
         try{
             let NewUser = await User({
@@ -41,11 +43,14 @@ async function CreateUser(username, password){
     }
 }
 
+//login user function
 async function LoginUser(username, password)
 {
+    // check if a user with this username exists
     let UserObject = await IfUserExists_Username(username)
     if(UserObject.doesUserExist)
     {
+        // compare the plaintext password hash with the database hash
         if(await bcrypt.compare(password, UserObject.targetUser[0].password))
         {
             
@@ -64,11 +69,14 @@ async function LoginUser(username, password)
     }
 }
 
+// delete user function
 async function DeleteUser(userID){
+    // check if a user with this ID exists
     let UserObject = await IfUserExists(userID)
     if(UserObject.doesUserExist)
     {
         try{
+            // Delete the target user's posts
             let targetUserPostIds = (await GetPostsByUser(userID)).targetPost.map((post) => {return post._id})
             await Post.deleteMany({
                 _id: {
@@ -81,6 +89,7 @@ async function DeleteUser(userID){
             .catch((err) => {
                 // console.log(err)
             })
+            // delete the user
             await User.findOneAndDelete({_id: userID})
 
             return {status: 200, message: USER_DELETE_SUCCESS}
@@ -97,6 +106,7 @@ async function DeleteUser(userID){
    
 }
 
+// function that checks if a user with the specified ID exists
 async function IfUserExists(UserID){
     const targetUser = await User.findById({_id: UserID})
     if(targetUser?._id)
@@ -109,6 +119,7 @@ async function IfUserExists(UserID){
     }
 }
 
+// function that checks if a user with the specified username exists
 async function IfUserExists_Username(Username){
     const targetUser = await User.find({username: Username})
     if(targetUser.length > 0)

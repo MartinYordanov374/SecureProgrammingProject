@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+// Define the post schema and model from the schema
+// Note that references are being set, analogical to foreign-key relations between tables in relational databases
 const PostModel = new mongoose.Schema({
     postOwner:  {
        type: mongoose.Types.ObjectId,

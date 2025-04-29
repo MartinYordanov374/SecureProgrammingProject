@@ -19,11 +19,13 @@ const {
     RATE_LIMIT_MESSAGE
 } = require('../Utilities/Messages.js')
 
+// configure the active user session storage
 let MongoSessionStore = new MongoStore({
     uri: `${process.env.MONGOOSE_CONNECTION_STRING}`,
     collection: 'userSessions'
 })
 
+// configure rate limiters that are used as middlewares in the endpoints below
 const AuthRateLimiter = rateLimit({
     windowMs: 1*60*1000,
     max: 20,
@@ -41,20 +43,25 @@ const RegularRateLimiter = rateLimit({
     max: 1000,
     message: {message: RATE_LIMIT_MESSAGE}
 })
+
 const APP_PORT = process.env.SERVER_PORT
 
 const {CreateUser, LoginUser, DeleteUser} = require('../Services/UserService.js')
 const { CreatePost, DeletePost, LikePost, GetAllPosts, GetPostById, GetPostsByUser } = require('../Services/PostService.js')
 
+
+// set up the regex for password validation
 const PASSWORD_REGEX = /^(?=.*\w)(?=.*[A-Z]){1,}(?=.*\W).{8,}$/
 
 app.use(express.json())
 
+//set up cors
 app.use(cors({
     origin: [process.env.ORIGIN, process.env.REMOTE_ORIGIN],
     credentials: true
 }))
 
+// configure the server-side session and session cookies
 app.use(session({
     store: MongoSessionStore,
     cookie: {
@@ -67,12 +74,15 @@ app.use(session({
     secret: process.env.SESSION_SECRET
 }))
 
-
+// login endpoint
 app.post('/user/login', AuthRateLimiter, async (req,res)  => {
     try{
+        // sanitize body, preventing injection attacks
         let sanitized_body = sanitize(req.body)
         let username = sanitized_body.username
         let password = sanitized_body.password
+        // Check if the username and password are string. 
+        // If an injection payload has been inserted, they will be of type object
         if(typeof username == 'string' && typeof password == 'string')
         {
             if(!PASSWORD_REGEX.test(password))
@@ -85,6 +95,7 @@ app.post('/user/login', AuthRateLimiter, async (req,res)  => {
                         if(result.status == 200)
                         {
                             const userID = result.UserId
+                            // save the user ID in the session object
                             req.session.userID = userID
                             req.session.save(()=>{});
                         }
@@ -104,13 +115,16 @@ app.post('/user/login', AuthRateLimiter, async (req,res)  => {
     }
     
 })
-
+// register user endpoint
 app.post('/user/register', AuthRateLimiter, async (req,res) => {
     try
     {
+        // sanitize body against injection attacks
         let sanitized_body = sanitize(req.body)
         let username = sanitized_body.username
         let password = sanitized_body.password
+         // Check if the username and password are string. 
+        // If an injection payload has been inserted, they will be of type object
         if(typeof username == 'string' && typeof password == 'string')
         {
             if(!PASSWORD_REGEX.test(password))
@@ -137,10 +151,12 @@ app.post('/user/register', AuthRateLimiter, async (req,res) => {
     
 })
 
+// Delete user endpoint
 app.delete('/user/delete/:userID', RegularRateLimiter, async (req,res) => {
     try{
         let userID = req.params.userID
-        if(userID != req.session.userID)
+        // check if the user requesting the delete is the same as the one being deleted
+        if(userID != req.session.userID) 
         {
             res.status(409).send({message: NOT_AUTHORIZED})
         }
@@ -168,6 +184,7 @@ app.delete('/user/delete/:userID', RegularRateLimiter, async (req,res) => {
     
 })
 
+// check if user is registered
 app.get('/user/isRegistered', RegularRateLimiter, async(req,res)=>{
     try{
         if(req.session.userID){
@@ -185,6 +202,7 @@ app.get('/user/isRegistered', RegularRateLimiter, async(req,res)=>{
     }
 })
 
+// Get the current user ID endpoint
 app.get('/user/get/currentUser', RegularRateLimiter, async(req,res) => {
     try{
         if(req.session.userID)
@@ -203,9 +221,11 @@ app.get('/user/get/currentUser', RegularRateLimiter, async(req,res) => {
 
 })
 
+//logout endpoint
 app.post('/user/logout', RegularRateLimiter, async(req,res) => {
     try
     {
+        // destroy the current user session
         req.session.destroy(() => {
        
             res.status(200).send('logged out')
@@ -220,6 +240,7 @@ app.post('/user/logout', RegularRateLimiter, async(req,res) => {
 
 })
 
+// create post endpoint
 app.post('/post/create', PostRateLimiter, async(req,res) => {
     try{
         const postOwnerId = req.session.userID;
@@ -236,6 +257,7 @@ app.post('/post/create', PostRateLimiter, async(req,res) => {
   
 })
 
+// delete post endpoint
 app.delete('/post/delete/:postId', PostRateLimiter, async(req,res) => {
     try{
         const currentUserId = req.session.userID;
@@ -250,6 +272,7 @@ app.delete('/post/delete/:postId', PostRateLimiter, async(req,res) => {
     
 })
 
+// like post endpoint
 app.post("/post/like/:postId", PostRateLimiter, async(req,res) => {
     try
     {
@@ -264,6 +287,7 @@ app.post("/post/like/:postId", PostRateLimiter, async(req,res) => {
     }
 })
 
+// get all posts endpoint
 app.get("/post/getAll", PostRateLimiter, async(req,res) => {
     try{
         let result = await GetAllPosts();
@@ -276,6 +300,7 @@ app.get("/post/getAll", PostRateLimiter, async(req,res) => {
    
 })
 
+// fetch a specific post endpoint
 app.get("/post/fetch/:postId", PostRateLimiter, async(req,res) => {
     try{
         let result = await GetPostById(req.params.postId)
@@ -288,6 +313,7 @@ app.get("/post/fetch/:postId", PostRateLimiter, async(req,res) => {
    
 })
 
+// fetch a specific user's posts
 app.get("/post/fetch/owner/:userID", PostRateLimiter, async(req,res) => {
     try{
         let result = await GetPostsByUser(req.params.userID)

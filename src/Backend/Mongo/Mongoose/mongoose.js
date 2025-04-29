@@ -4,6 +4,7 @@ loadEnvFile('../../../.env')
 
 const connectToMongoDb = async () => {
     try{
+        // connect to the mongo database
         await mongoose.connect(`${process.env.MONGOOSE_CONNECTION_STRING}`, {
             useNewUrlParser: true,
             useUnifiedTopology: true
