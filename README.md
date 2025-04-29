@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# General information
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is my project for the COMP.SEC.300(Secure programming) course at Tampere University. It represents a minimalistic web application with the basic CRUD functionality of a social media platform.
 
-## Available Scripts
+Users can: 
 
-In the project directory, you can run:
+    Create & delete posts
 
-### `npm start`
+    like/remove like from posts
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    Write comments under specific posts
+    
+    Delete their own profiles
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies used
 
-### `npm test`
+The project is built with ReactJS for the front end and Node+Express for the backend with a mongo database. It is a classic MERN stack application. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+For the design part, bootstrap was utilized to speed up the process and ensure a somewhat mobile-friendly responsive UI.
 
-### `npm run build`
+Since the application is not hosted publicly anywhere, docker has been utilized to ensure cross-system comaptibility for the application.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Instructions on how to run the application
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Create a .env file in the root folder with the following variables.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Nore that the values below are only exemplary and for instruction's sake. 
 
-### `npm run eject`
+They are not meant to be copy-pasted.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**SESSION_SECRET**={your secret}
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**SERVER_PORT**=5001
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**FRONTEND_PORT**=3000
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**REACT_APP_BACKEND_ADDRESS**=http://192.168.50.213:5001
 
-## Learn More
+**ORIGIN**=http://127.0.0.1:3000
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**REMOTE_ORIGIN**=http://192.168.50.213:3000
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**MONGO_AUTH_ADMIN_USERNAME**=admin
 
-### Code Splitting
+**MONGO_AUTH_ADMIN_PASSWORD**=samplepassword
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**MONGOOSE_CONNECTION_STRING**=mongodb://admin:samplepassword@192.168.50.213:27017/seprodb?authSource=admin
 
-### Analyzing the Bundle Size
+You can obtain your REMOTE_ORIGIN address by executing `ipconfig` in CMD if you are using **windows** or `ifconfig` if you are using a common **LINUX** distribution or **OSX**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+In case you have an issue with the some of the ports, try changing them.
 
-### Making a Progressive Web App
+## Running the application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Open terminal in the root directory of the project and run:
 
-### Advanced Configuration
+`docker-compose up --build`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+MAKE SURE THAT THE DOCKER DAEMON IS RUNNING BEFORE EXECUTING THIS COMMAND!
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Navigate to the IPv4 local address of your machine on your browser(port 3000) and explore the application.
