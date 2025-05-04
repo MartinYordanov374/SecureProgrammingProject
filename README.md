@@ -48,7 +48,7 @@ They are not meant to be copy-pasted.
 
 You can obtain your REMOTE_ORIGIN address by executing `ipconfig` in CMD if you are using **windows** or `ifconfig` if you are using a common **LINUX** distribution or **OSX**.
 It should be your "inet" address on mac for the "en0" interface. Same for the most common Linux distributions.
-If you are using windows, open CMD or Powrshell and write "ipconfig", look for your "IPv4 Address" on your "Wireless LAN adapter Wi-Fi". This is oyur address.
+If you are using windows, open CMD or Powrshell and write "ipconfig", look for your "IPv4 Address" on your "Wireless LAN adapter Wi-Fi". This is your address.
 
 Use that same address for **REACT_APP_BACKEND_ADDRESS**, **REMOTE_ORIGIN** and **MONGOOSE_CONNECTION_STRING**.
 
