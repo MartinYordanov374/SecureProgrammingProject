@@ -47,10 +47,19 @@ They are not meant to be copy-pasted.
 **MONGOOSE_CONNECTION_STRING**=mongodb://admin:samplepassword@192.168.50.213:27017/seprodb?authSource=admin
 
 You can obtain your REMOTE_ORIGIN address by executing `ipconfig` in CMD if you are using **windows** or `ifconfig` if you are using a common **LINUX** distribution or **OSX**.
+It should be your "inet" address on mac for the "en0" interface. Same for the most common Linux distributions.
+If you are using windows, open CMD or Powrshell and write "ipconfig", look for your "IPv4 Address" on your "Wireless LAN adapter Wi-Fi". This is oyur address.
+
+Use that same address for **REACT_APP_BACKEND_ADDRESS**, **REMOTE_ORIGIN** and **MONGOOSE_CONNECTION_STRING**.
+
+Make sure ccess the application in your browser on the address specified in **ORIGIN** in the .env file, otherwise CORS issues would arise.
 
 In case you have an issue with the some of the ports, try changing them.
 
 ## Running the application
+
+Make sure that you have docker and docker compose installed before running that command. Also make sure that the docker daemon is running before executing the command!
+
 
 Open terminal in the root directory of the project and run:
 
