@@ -63,7 +63,12 @@ Please note that **ORIGIN** and **REMOTE_ORIGIN** exist because during the testi
 Make sure that you have docker and docker compose installed before running that command. Also make sure that the docker daemon is running before executing the command!
 
 
-Open terminal in the root directory of the project and run:
+Open terminal in the directory you wish to cloen the project in and run:
+
+`git clone https://github.com/MartinYordanov374/SecureProgrammingProject.git`
+
+Then in the folder that was created after executing the above command, run this command:
+
 
 `docker-compose up --build`
 
