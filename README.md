@@ -52,9 +52,11 @@ If you are using windows, open CMD or Powrshell and write "ipconfig", look for y
 
 Use that same address for **REACT_APP_BACKEND_ADDRESS**, **REMOTE_ORIGIN** and **MONGOOSE_CONNECTION_STRING**.
 
-Make sure ccess the application in your browser on the address specified in **ORIGIN** in the .env file, otherwise CORS issues would arise.
+Make sure to access the application in your browser on the address specified in **ORIGIN** in the .env file, otherwise CORS issues would arise.
 
 In case you have an issue with the some of the ports, try changing them.
+
+Please note that **ORIGIN** and **REMOTE_ORIGIN** exist because during the testing, virtual machines as well as other physical devices owned entirely by the author of the project were utilized. 
 
 ## Running the application
 
@@ -65,6 +67,4 @@ Open terminal in the root directory of the project and run:
 
 `docker-compose up --build`
 
-MAKE SURE THAT THE DOCKER DAEMON IS RUNNING BEFORE EXECUTING THIS COMMAND!
-
-Navigate to the IPv4 local address of your machine on your browser(port 3000) and explore the application.
+Navigate to the IPv4 address you specified for the **ORIGIN** or **REMOTE_ORIGIN** variable in the .env file on your browser with the port you specified for the frontend and explore the application. 
