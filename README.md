@@ -20,6 +20,75 @@ For the design part, bootstrap was utilized to speed up the process and ensure a
 
 Since the application is not hosted publicly anywhere, docker has been utilized to ensure cross-system comaptibility for the application.
 
+## Secure Programming Solutions
+
+OWASP TOP 10 has been used as a checklist throughout the entire project.
+
+
+Here are some secure programming solutions that I implemented:
+
+IP-Based rate limiters using `express-rate-limit` were implemented for all backend endpoints, preventing brute force and DoS attacks.
+
+The user passwords are stored as `bcrypt` hashes with a cost factor of 10.
+
+Input sanitization and validation is applied using `mongo-sanitize` to sanitize the incoming request body and regex is utilized to validate whether a password or username is valid before it is sent to the backend.
+
+Server-side sessions were utilized to manage user sessions, minimizing the risk of session hijacking, compared to client-stored sessions. The session cookies are `httpOnly` and `sameSite`, minimizing the risk of CSRF attacks and cookie stealing using JavaScript.
+
+CORS rules are were implemented to prevent possible CSRF attacks.
+
+## Vulnerability Assessment
+
+A vulnerability assessment was carried out, using the following tools:
+
+`Tenable Nessus` for automated vulnerability scanning
+
+`Trivy` for scanning the docker images used in the project
+
+`Snyk` for scanning for dependency vulnerabilities
+
+`Metasploit` for searching vulnerability records for project dependency vulnerabilities
+
+`npm audit` for scanning the package.json dependencies for vulnerabilities
+
+More detail about the vulnerability assessment can be found in the report.
+
+
+## Penetration Test
+A local-network, white-box penetration test was carried out, using the following tools:
+
+`nmap`
+`metasploit`
+`wireshark`
+`hashcat`
+`postman`
+
+The goal was to "Find and exploit vulnerabilities from the OWASP TOP 10 list with priority as well as any
+other vulnerability that may be discovered during the test." (this is from the report, you will find more details there)
+
+The vulnerabilities that were found and exploited(with one exception) were:
+
+**Unauthorized database access, leading to use account take over**
+
+**Data is transmitted over HTTP, leading to stolen user credentials**
+
+**NoSQL injection was found but I could not exploit that to gain access to sensitive information**
+
+The penetration test also focused on whether the following vulnerabilities are present in the application and none of them were found to be issues:
+
+`Brute force attacks`
+
+`XSS attacks`
+
+`Broken auth attacks`
+
+
+Note that all found vulnerabilities(with an available fix in case of dependency vulnerabilities) during the assessment and penetration testing stages were later remediated.
+
+
+Much more detail in regards to the whole process is found in the report.
+
+
 ## Running the application
 
 Make sure that you have docker and docker compose installed before running that command. Also make sure that the docker daemon is running before executing the command!
