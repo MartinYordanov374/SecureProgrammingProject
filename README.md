@@ -158,41 +158,63 @@ Please note that **ORIGIN** and **REMOTE_ORIGIN** exist because during the testi
 Sample .env file with example values and how I accessed the web applicaiton based on them:
 
 ```
-**SESSION_SECRET**=1010010101010
+SESSION_SECRE=1010010101010
 
-**SERVER_PORT**=5001
+SERVER_PORT=5001
 
-**FRONTEND_PORT**=3000
+FRONTEND_PORT=3000
 
-**REACT_APP_BACKEND_ADDRESS**=http://192.168.50.213:5001
+REACT_APP_BACKEND_ADDRESS=http://192.168.50.213:5001
 
-**ORIGIN**=http://127.0.0.1:3000
+ORIGIN**=http://127.0.0.1:3000
 
-**REMOTE_ORIGIN**=http://192.168.50.213:3000
+REMOTE_ORIGIN=http://192.168.50.213:3000
 
-**MONGO_AUTH_ADMIN_USERNAME**=admin
+MONGO_AUTH_ADMIN_USERNAME=admin
 
-**MONGO_AUTH_ADMIN_PASSWORD**=samplepassword
+MONGO_AUTH_ADMIN_PASSWORD=samplepassword
 
-**MONGOOSE_CONNECTION_STRING**=mongodb://admin:samplepassword@192.168.50.213:27017/seprodb?authSource=admin
+MONGOOSE_CONNECTION_STRING=mongodb://admin:samplepassword@192.168.50.213:27017/seprodb?authSource=admin
 ```
 
 Based on that .env file, you should navigate to ```http://127.0.0.1:3000``` on your browser. This is where the application should be hosted if the specified port(3000) is not taken by another process on your machine.
 
-Please note that the **MONGO_AUTH_ADMIN_USERNAME**, **MONGO_AUTH_ADMIN_PASSWORD**, **REMOTE_ORIGIN**(excluding the port) are all a part of the **MONGOOSE_CONNECTION_STRING**.
-Please also note that in case of changing the port values in the **REACT_APP_BACKEND_ADDRESS**, **REMOTE_ORIGIN** and **ORIGIN** variables in the .env, you have to also be changing the port variables in **REACT_APP_BACKEND_ADDRESS**, **ORIGIN**, and **REMOTE_ORIGIN**. 
-Use the **SERVER_PORT** for **REACT_APP_BACKEND_ADDRESS** and **FRONTEND_PORT** for the **ORIGIN**, and **REMOTE_ORIGIN** variables respoectfull.
+Please note that the following are all a part of the **MONGOOSE_CONNECTION_STRING**.
+
+**MONGO_AUTH_ADMIN_USERNAME**, 
+
+**MONGO_AUTH_ADMIN_PASSWORD**, 
+
+
+**REMOTE_ORIGIN**(excluding the port associated with it)
+
+
+Please also note that in case of changing the port values for **SERVER_PORT** and **FRONTEND_PORT** variables in the .env, you have to also be changing the port variables for the following .env file variables: 
+
+**REACT_APP_BACKEND_ADDRESS**, 
+
+**ORIGIN**,
+
+**REMOTE_ORIGIN** 
+
+
+Use the **SERVER_PORT** for **REACT_APP_BACKEND_ADDRESS** and **FRONTEND_PORT** for the **ORIGIN**, and **REMOTE_ORIGIN** variables respoectfully.
+
+
 For instance, if your **SERVER_PORT** is 5001, the port in your **REACT_APP_BACKEND_ADDRESS** should also be 5001, e.g.
 
 ```
-**SERVER_PORT**=5001
-**REACT_APP_BACKEND_ADDRESS**=http://192.168.50.213:**5001**
+SERVER_PORT=5001
+REACT_APP_BACKEND_ADDRESS=http://192.168.50.213:5001
 ```
 
+The same goes for the frontend part, e.g.
+
+
 ```
-**FRONTEND_PORT**=3000
-**ORIGIN**=http://127.0.0.1:**3000**
-**REMOTE_ORIGIN**=http://192.168.50.213:**3000**
+FRONTEND_PORT=3000
+ORIGIN=http://127.0.0.1:3000
+REMOTE_ORIGIN=http://192.168.50.213:3000
 ```
 
 I hope that this is clear enough. 
