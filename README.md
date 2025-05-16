@@ -123,7 +123,7 @@ They are not meant to be copy-pasted.
 
 
 ```
-ESSION_SECRET={your secret}
+SESSION_SECRET=supertopsecret
 
 SERVER_PORT=5001
 
