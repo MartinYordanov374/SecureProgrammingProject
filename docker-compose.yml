@@ -18,7 +18,7 @@ services:
     networks: 
       - sepro-network
     ports: 
-      - "3000:3000"
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
     depends_on: 
       - backend
     restart: always
@@ -30,7 +30,7 @@ services:
     networks: 
       - sepro-network
     ports: 
-      - "5001:5001"
+      - ${SERVER_PORT}:${SERVER_PORT}
     depends_on: 
       - mongo
     restart: always
