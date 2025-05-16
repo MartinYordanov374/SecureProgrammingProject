@@ -117,29 +117,29 @@ The structure should look like so:
 
 Create a .env file in the root folder with the following variables.
 
-Nore that the values below are only exemplary and for instruction's sake. 
+Nore that the **values** below are only exemplary and for instruction's sake. 
 
 They are not meant to be copy-pasted.
 
 
 ```
-**SESSION_SECRET**={your secret}
+ESSION_SECRET={your secret}
 
-**SERVER_PORT**=5001
+SERVER_PORT=5001
 
-**FRONTEND_PORT**=3000
+FRONTEND_PORT=3000
 
-**REACT_APP_BACKEND_ADDRESS**=http://192.168.50.213:5001
+REACT_APP_BACKEND_ADDRESS=http://192.168.50.213:5001
 
-**ORIGIN**=http://127.0.0.1:3000
+ORIGIN=http://127.0.0.1:3000
 
-**REMOTE_ORIGIN**=http://192.168.50.213:3000
+REMOTE_ORIGIN=http://192.168.50.213:3000
 
-**MONGO_AUTH_ADMIN_USERNAME**=admin
+MONGO_AUTH_ADMIN_USERNAME=admin
 
-**MONGO_AUTH_ADMIN_PASSWORD**=samplepassword
+MONGO_AUTH_ADMIN_PASSWORD=samplepassword
 
-**MONGOOSE_CONNECTION_STRING**=mongodb://admin:samplepassword@192.168.50.213:27017/seprodb?authSource=admin
+MONGOOSE_CONNECTION_STRING=mongodb://admin:samplepassword@192.168.50.213:27017/seprodb?authSource=admin
 ```
 
 
