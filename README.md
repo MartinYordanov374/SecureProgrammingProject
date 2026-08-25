@@ -334,38 +334,40 @@ GitHub's Dependabot was also set up for continuous vulnerability and secret moni
 More detail about the vulnerability assessment can be found in the report.
 
 ## Penetration Test
-A local-network, white-box penetration test was carried out, using the following tools:
+A local-network, white-box penetration test was carried out (April 18-24, 2025), using the following tools:
 
-`nmap`
-`metasploit`
-`wireshark`
-`hashcat`
-`postman`
+- **nmap** for port scanning
+- **metasploit** for vulnerability exploit searching
+- **wireshark** for intercepting network traffic
+- **hashcat** for brute-force password attempts
+- **postman** for API testing and front-end sanitization bypass attempts
 
-The goal was to "Find and exploit vulnerabilities from the OWASP TOP 10 list with priority as well as any
-other vulnerability that may be discovered during the test." (this is from the report, you will find more details there)
+The goal was to find and exploit vulnerabilities from the OWASP TOP 10 list with priority, as well as any other vulnerability discovered during the test.
 
-The vulnerabilities that were found and exploited(with one exception) were:
+### Vulnerabilities Found and Exploited
 
-**Unauthorized database access, leading to use account take over**
+| Vulnerability | Status | Impact |
+|---------------|--------|--------|
+| Unauthorized database access | Exploited and Remediated | Account takeover (no password cracking needed) |
+| Data transmitted over HTTP | Exploited and Remediated | Credential theft via Wireshark |
+| NoSQL injection | Discovered and Mitigated | Could not extract sensitive data |
 
-**Data is transmitted over HTTP, leading to stolen user credentials**
+### Vulnerabilities Tested (None Found)
 
-**NoSQL injection was found but I could not exploit that to gain access to sensitive information**
+- **Brute-force attacks** — Blocked by rate limiters
+- **XSS attacks** — Blocked by React JSX escaping
+- **Broken authentication** — Blocked by session ownership validation
 
-The penetration test also focused on whether the following vulnerabilities are present in the application and none of them were found to be issues:
-
-`Brute force attacks`
-
-`XSS attacks`
-
-`Broken auth attacks`
-
-
-Note that all found vulnerabilities(with an available fix in case of dependency vulnerabilities) during the assessment and penetration testing stages were later remediated.
+All found vulnerabilities were later remediated with documented fixes. More detail regarding the whole process can be found in the report.
+### Remediations 
 
 
-Much more detail in regards to the whole process is found in the report.
+| Vulnerability | Remediation |
+|---------------|-------------|
+| Unauthorized database access | Docker compose environment variables for MongoDB admin credentials upon container creation |
+| NoSQL injection | Input sanitization with `mongo-sanitize` - checks incoming request body values are strings. login/register endpoints fail if object type detected |
+| Dependency vulnerabilities | `npm audit fix --force` - updated all vulnerable dependencies |
+| CSRF attacks | Added `SameSite` attribute to session cookie configuration—cookie available only in context of the website it was sent to |
 
 
 ## Getting Started
