@@ -19,6 +19,24 @@
 I invested months building a solid cybersecurity foundation leading up to this project - university courses, online certifications, and HackTheBox Academy. During the **Secure Programming** course at **Tampere University**, I had the perfect opportunity to apply all of that knowledge to my own project. As a result, I earned a great grade while putting the theory into practice.
 ## What I strived to achieve and learn through this project
 ## Project Features
+### Application Functionality
+- User registration and authentication
+- Post creation, viewing, and deletion
+- Comments on posts
+- Likes system
+- User profiles with confirmation guards
+- Server-side session management
+
+### Security Implementations
+- bcrypt password hashing with strength validation
+- HTTP-only, SameSite session cookies
+- CORS restriction to authorized origins
+- IP-based rate limiting (auth, posts, general endpoints)
+- MongoDB authentication enforcement
+- NoSQL injection prevention (mongo-sanitize)
+- Environment variable protection (.gitignore)
+- Dependency vulnerability scanning (npm audit, Dependabot, Snyk, Trivy)
+
 ## Tech Stack
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
