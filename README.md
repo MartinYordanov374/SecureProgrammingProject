@@ -40,15 +40,125 @@ The diagram below shows the API and Authentication flow of the application.
 
 ### Database
 #### The User Schema
+The user schema is composed of only two string fields - username and password. Both of which
+are required.
+```
+const UserSchema = new mongoose.Schema({
+    username:  {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+
+})
+```
 #### The Post Schema
+The post schema is composed of five fields - ```postOwner```, ```postBody```, ```postParent```, ```likes```,
+```comments```. Note that a comment is a post that has a **postParent field**, hence the reference to
+the **post** model in the comment field
+
+```
+const PostModel = new mongoose.Schema({
+    postOwner:  {
+       type: mongoose.Types.ObjectId,
+       ref: 'user',
+       required: true
+    },
+    postBody: {
+        type: String,
+        required: true
+    },
+    postParent: {
+        type: mongoose.Types.ObjectId,
+        ref: 'post',
+        required: false
+    },
+    likes:[{
+            type: mongoose.Types.ObjectId,
+            ref: 'user'
+        }],
+    comments:[{
+            type: mongoose.Types.ObjectId,
+            ref: 'post'
+        }]
+})
+```
 ### Server
+The server consists of twelve user and post-related endpoints shown in the **Endpoints** subsection.
 #### Endpoints
+
+##### User Endpoints
+
+| Endpoint | Method | Parameters | Description |
+|----------|--------|------------|-------------|
+| `/user/login` | POST | `username`, `password` (body) | Validates password with regex, creates server-side session if credentials match |
+| `/user/register` | POST | `username`, `password` (body) | Checks username availability, hashes password with bcrypt, stores user object |
+| `/user/delete/:userID` | DELETE | `userID` (param) | Compares requester's session userID with parameter; deletes profile and associated posts if authorized |
+| `/user/isRegistered` | GET | None | Checks active server-side session via HTTP-Only session cookie |
+| `/user/get/currentUser` | GET | None | Returns user ID if active session exists |
+| `/user/logout` | POST | None | Destroys active server session corresponding to requester's session cookie |
+
+##### Post Endpoints
+
+| Endpoint | Method | Parameters | Description |
+|----------|--------|------------|-------------|
+| `/post/create` | POST | `postContentId`, `postParentId` (body) | Creates post or comment; `postOwnerId` taken from requester's session |
+| `/post/delete/:postId` | DELETE | `postId` (param) | Verifies requester owns the post before deletion to prevent broken auth |
+| `/post/like/:postId` | POST | `postId` (param) | Toggles like/unlike on a post using server-side session |
+| `/post/getAll` | GET | None | Returns all posts (excluding comments); no authentication required |
+| `/post/fetch/:postId` | GET | `postId` (query) | Fetches specific post by ID; no authentication required |
+| `/post/fetch/owner/:userID` | GET | `userID` (query) | Fetches all posts by specified user ID; no authentication required |
+
+---
+**Password Validation Regex:**
+
+```^(?=.\w)(?=.[A-Z]){1,}(?=.*\W).{8,}$```
+
+It enforces the password to have at least one word character, at least one upper-case letter, at least one special character and have a minimum of 8 characters.
+
+---
+
 ### Services
 #### User Service
+
+The user service is composed of five functions that the node server relies on - `CreateUser`, `LoginUser`, `DeleteUser`, `IfUserExists`, `IfUserExists_Username`.
+
+| Function | Parameters | Description | Security Notes |
+|----------|------------|-------------|----------------|
+| `CreateUser` | `username`, `password` | Checks if username exists via `IfUserExists`. Upon success, hashes plaintext password with bcrypt and saves user object to database. Sends response back to API. | Password hashing prevents plaintext exposure |
+| `LoginUser` | `username`, `password` | Verifies username exists via `IfUserExists_Username`. Hashes plaintext password and compares to stored hash. On match, creates server session and sends HTTP-Only session cookie to client. | Session cookies are HTTP-Only, JavaScript cannot access them |
+| `DeleteUser` | `userID` | Verifies user exists. Deletes all associated posts, then deletes user. Requires requester's session `userID` to match parameter `userID`. | Prevents broken auth by validating session ownership |
+| `IfUserExists` | `userID` | Queries database to check if user exists with given ID. Returns boolean and sends user data back to calling API endpoint. | Cannot be called independently; only accessible through login, register, delete endpoints |
+| `IfUserExists_Username` | `username` | Works identically to `IfUserExists` but accepts `username` instead of `userID` as parameter. | Same restrictions apply as `IfUserExists` |
+
+**Notes:**
+- `IfUserExists` and `IfUserExists_Username` cannot be called independently; they are only callable by login, register, and delete user endpoints.
+- The API does not return all user data to the client.
+- Sensitive information (like passwords) is always hashed before being sent anywhere.
+  
 #### Post Service
+
+The post service is composed of six functions - `CreatePost`, `DeletePost`, `LikePost`, `GetPostById`, `GetPostsByUser`, `GetAllPosts`.
+
+| Function | Parameters | Description | Security Notes |
+|----------|------------|-------------|----------------|
+| `CreatePost` | `postContent`, `ownerId` (session), optional `parentPostId` | Creates a post or comment. Comments have a `parentPostId` field. Fetches parent post first, then adds post to parent's comments array. Regular posts are created without parent reference. | `ownerId` taken from session data |
+| `DeletePost` | `requestUserId`, `targetPostId` | Verifies post owner's ID matches requester's ID before deletion. | `userId` passed from session ID; prevents unauthorized deletion |
+| `LikePost` | `postId`, `likerId` | Checks if target post exists, then inserts liker ID in the likes array. MongoDB operators treat likes field as a set, so re-clicking removes the like. | Session-based like tracking |
+| `GetPostById` | `postId` | Finds post with given ID and returns response with populated fields for `postOwner` and comments. | Returns actual objects instead of ObjectIds |
+| `GetPostsByUser` | `userId` | Similar to `GetPostById` but fetches all posts by a user. Excludes posts with `postParent` field (user's comments are not returned). | Returns actual objects instead of ObjectIds |
+| `GetAllPosts` | None | Fetches all posts with no `parentPost` field. Population same as `GetPostById`. | No authentication required; public endpoint |
+
+
 ### Docker
+Docker has been utilized in this project to ensure cross-platform compatibility and the latest image versions of Node and MongoDB.
 
+Docker Hub is regularly updated with the latest releases of MongoDB and Node images, which are the only images used in this project. When building the project with Docker Compose, all images utilized will be of the latest version compared to the version utilized at the time of building the project.
 
+Docker Compose simplifies running and building the project. Additionally, all containers created with Docker Compose are automatically created on the same Docker network, making it easier to implement communication between containers without writing local IP addresses (or public IPs in the case of deploying the app). Docker Compose services' names must be used instead.
 
 ## Project Structure
 The project is separated in two modules - frontend and backend.
