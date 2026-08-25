@@ -61,7 +61,7 @@ The core architecture consists of a Node.js and Express server, MongoDB with sch
 
 ### Database
 #### The User Schema
-The user schema is composed of only two string fields - username and password. Both of which
+The user schema is composed of only two string fields - username and password. Both of which Note that the password is hashed before being saved on the database!
 are required.
 ```
 const UserSchema = new mongoose.Schema({
