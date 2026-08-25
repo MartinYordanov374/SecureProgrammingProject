@@ -16,6 +16,7 @@
 10. [Getting Started](#Getting-Started)
 
 ## The motivation behind the project
+I invested months building a solid cybersecurity foundation leading up to this project - university courses, online certifications, and HackTheBox Academy. During the **Secure Programming** course at **Tampere University**, I had the perfect opportunity to apply all of that knowledge to my own project. As a result, I earned a great grade while putting the theory into practice.
 ## What I strived to achieve and learn through this project
 ## Project Features
 ## Tech Stack
