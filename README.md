@@ -34,6 +34,10 @@ The core architecture consists of a Node.js and Express server, MongoDB with sch
 
 <img width="718" height="725" alt="canvas" src="https://github.com/user-attachments/assets/2895d071-a58f-44dc-bb5e-922b16afdb60" />
 
+
+The diagram below shows the API and Authentication flow of the application.
+<img width="1700" height="989" alt="Screenshot From 2026-08-25 10-00-16" src="https://github.com/user-attachments/assets/940cde32-56ca-4d6d-87c1-4b20296ad4bb" />
+
 ### Database
 #### The User Schema
 #### The Post Schema
@@ -43,6 +47,9 @@ The core architecture consists of a Node.js and Express server, MongoDB with sch
 #### User Service
 #### Post Service
 ### Docker
+
+
+
 ## Project Structure
 The project is separated in two modules - frontend and backend.
 
@@ -172,9 +179,6 @@ Input sanitization and validation is applied using `mongo-sanitize` to sanitize 
 Server-side sessions were utilized to manage user sessions, minimizing the risk of session hijacking, compared to client-stored sessions. The session cookies are `httpOnly` and `sameSite`, minimizing the risk of CSRF attacks and cookie stealing using JavaScript.
 
 CORS rules are were implemented to prevent possible CSRF attacks.
-
-<img width="779" height="459" alt="canvas" src="https://github.com/user-attachments/assets/420ad549-9193-4eb1-9c95-f04adc7d4d43" />
-
 ## Vulnerability Assessment
 
 A vulnerability assessment was carried out, using the following tools:
