@@ -57,6 +57,19 @@ is logged in or not.
 ```UseAuth``` is used in the two higher-order components and in the
 Home, Navbar, and Post components for conditional rendering
 
+#### Dockerfile
+The frontend includes a Dockerfile to build a Docker image and run a container, ensuring cross-platform operability of the project.
+
+### Backend
+The backend directory contains the following files and sub-directories:
+
+1. **Dockerfile** — Defines the Docker image for deployment.
+2. **Express/** — Contains the Express.js server setup.
+3. **Mongo/** — Holds MongoDB connection logic, schema definitions for User and Post models.
+4. **Services/** — Implements business logic for user and post operations (user service, post service).
+5. **Utilities/** — Contains all server-side response messages.
+
+The project tree structure can be seen below:
 ```
 ├── COMP.SEC.300-Presentation.pdf
 ├── README.md
