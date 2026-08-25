@@ -29,6 +29,20 @@
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ## Project Architecture
+The core architecture consists of a Node.js and Express server, MongoDB with schemas for both a user and a post, two services - ```user``` and
+```post``` services - and a utility file, called Messages. The high-level diagram below represents the data flow of the application in a simplified manner.
+
+<img width="718" height="725" alt="canvas" src="https://github.com/user-attachments/assets/2895d071-a58f-44dc-bb5e-922b16afdb60" />
+
+### Database
+#### The User Schema
+#### The Post Schema
+### Server
+#### Endpoints
+### Services
+#### User Service
+#### Post Service
+### Docker
 ## Project Structure
 The project is separated in two modules - frontend and backend.
 
