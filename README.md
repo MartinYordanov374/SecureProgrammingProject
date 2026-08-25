@@ -372,124 +372,96 @@ All found vulnerabilities were later remediated with documented fixes. More deta
 
 ## Getting Started
 
-Make sure that you have docker and docker compose installed before running that command. Also make sure that the docker daemon is running before executing the command!
+### Prerequisites
 
+Make sure that you have Docker and Docker Compose installed before running that command. Also make sure that the Docker daemon is running before executing the command!
 
-Open terminal in the directory you wish to cloen the project in and run:
+### Installation
 
-`git clone https://github.com/MartinYordanov374/SecureProgrammingProject.git`
+1. Open terminal in the directory you wish to clone the project in and run:
+
+```bash
+git clone https://github.com/MartinYordanov374/SecureProgrammingProject.git
+```
 
 Then in the folder that was created after executing the above command, run this command:
-
 
 `docker-compose up --build`
 
 Navigate to the IPv4 address you specified for the **ORIGIN** or **REMOTE_ORIGIN** variable in the .env file on your browser with the port you specified for the frontend and explore the application. 
 
-Note that your root folder is the folder which was created after you executed `git clone https://github.com/MartinYordanov374/SecureProgrammingProject.git` successfully.
+**Note:** Your root folder is the folder which was created after you executed ```git clone https://github.com/MartinYordanov374/SecureProgrammingProject.git``` successfully.
 
 Create a .env file in the root folder with the following variables.
 
-Nore that the **values** below are only exemplary and for instruction's sake. 
-
-They are not meant to be copy-pasted.
+**Note:** The **values** below are only exemplary and for instruction's sake. They are not meant to be copy-pasted.
 
 
 ```
 SESSION_SECRET=supertopsecret
-
 SERVER_PORT=5001
-
 FRONTEND_PORT=3000
-
 REACT_APP_BACKEND_ADDRESS=http://192.168.50.213:5001
-
 ORIGIN=http://127.0.0.1:3000
-
 REMOTE_ORIGIN=http://192.168.50.213:3000
-
 MONGO_AUTH_ADMIN_USERNAME=admin
-
 MONGO_AUTH_ADMIN_PASSWORD=samplepassword
-
 MONGOOSE_CONNECTION_STRING=mongodb://admin:samplepassword@192.168.50.213:27017/seprodb?authSource=admin
 ```
+#### Finding Your IP Address
+You can obtain your ```REMOTE_ORIGIN``` address by executing ipconfig in CMD if you are using Windows or ifconfig if you are using a common Linux distribution or OSX.
 
+It should be your "inet" address on Mac for the "en0" interface. Same for the most common Linux distributions.
+
+**If you are using Windows**:
+- open CMD or PowerShell and write "ipconfig",
+- look for your "IPv4 Address" on your "Wireless LAN adapter Wi-Fi". This is your address.
+- Use that same address for REACT_APP_BACKEND_ADDRESS, REMOTE_ORIGIN, and MONGOOSE_CONNECTION_STRING.
 
 You can obtain your REMOTE_ORIGIN address by executing `ipconfig` in CMD if you are using **windows** or `ifconfig` if you are using a common **LINUX** distribution or **OSX**.
-It should be your "inet" address on mac for the "en0" interface. Same for the most common Linux distributions.
-If you are using windows, open CMD or Powershell and write "ipconfig", look for your "IPv4 Address" on your "Wireless LAN adapter Wi-Fi". This is your address.
 
-Use that same address for **REACT_APP_BACKEND_ADDRESS**, **REMOTE_ORIGIN** and **MONGOOSE_CONNECTION_STRING**.
+ - It should be your "inet" address on mac for the "en0" interface. Same for the most common Linux distributions.
+ - If you are using windows, open CMD or Powershell and write "ipconfig", look for your "IPv4 Address" on your "Wireless LAN adapter Wi-Fi". This is your address.
 
-Make sure to access the application in your browser on the address specified in **ORIGIN** in the .env file, otherwise CORS issues would arise.
+Use that same address for ```REACT_APP_BACKEND_ADDRESS```, ```REMOTE_ORIGIN``` and ```MONGOOSE_CONNECTION_STRING``` in the .env file.
 
-In case you have an issue with the some of the ports, try changing them.
+#### Important Notes
+- Make sure to access the application in your browser on the address specified in ```ORIGIN``` in the .env file, otherwise CORS issues would arise.
+- In case you have an issue with the some of the ports, try changing them.
+- Please note that ```ORIGIN``` and ```REMOTE_ORIGIN``` exist because during the testing, virtual machines as well as other physical devices owned entirely by the author of the project were utilized as to mimic a real-world scenario as best as I could, hence the **origin** and **remote origin** variables.
 
-Please note that **ORIGIN** and **REMOTE_ORIGIN** exist because during the testing, virtual machines as well as other physical devices owned entirely by the author of the project were utilized as to mimic a real-world scenario as best as I could, hence the **origin** and **remote origin** variables. 
+#### Port Consistency
+Please also note that in case of changing the port values for SERVER_PORT and FRONTEND_PORT variables in the .env, you have to also be changing the port variables for the following .env file variables:
 
-Sample .env file with example values and how I accessed the web applicaiton based on them:
+- REACT_APP_BACKEND_ADDRESS
+- ORIGIN
+- REMOTE_ORIGIN
 
-```
-SESSION_SECRE=1010010101010
+Use the ```SERVER_PORT``` for ```REACT_APP_BACKEND_ADDRESS``` and ```FRONTEND_PORT``` for the ```ORIGIN```, and ```REMOTE_ORIGIN``` variables respectfully.
 
-SERVER_PORT=5001
-
-FRONTEND_PORT=3000
-
-REACT_APP_BACKEND_ADDRESS=http://192.168.50.213:5001
-
-ORIGIN**=http://127.0.0.1:3000
-
-REMOTE_ORIGIN=http://192.168.50.213:3000
-
-MONGO_AUTH_ADMIN_USERNAME=admin
-
-MONGO_AUTH_ADMIN_PASSWORD=samplepassword
-
-MONGOOSE_CONNECTION_STRING=mongodb://admin:samplepassword@192.168.50.213:27017/seprodb?authSource=admin
-```
-
-Based on that .env file, you should navigate to ```http://127.0.0.1:3000``` on your browser. This is where the application should be hosted if the specified port(3000) is not taken by another process on your machine.
-
-Please note that the following are all a part of the **MONGOOSE_CONNECTION_STRING**.
-
-**MONGO_AUTH_ADMIN_USERNAME**, 
-
-**MONGO_AUTH_ADMIN_PASSWORD**, 
-
-
-**REMOTE_ORIGIN**(excluding the port associated with it)
-
-
-Please also note that in case of changing the port values for **SERVER_PORT** and **FRONTEND_PORT** variables in the .env, you have to also be changing the port variables for the following .env file variables: 
-
-**REACT_APP_BACKEND_ADDRESS**, 
-
-**ORIGIN**,
-
-**REMOTE_ORIGIN** 
-
-
-Use the **SERVER_PORT** for **REACT_APP_BACKEND_ADDRESS** and **FRONTEND_PORT** for the **ORIGIN**, and **REMOTE_ORIGIN** variables respoectfully.
-
-
-For instance, if your **SERVER_PORT** is 5001, the port in your **REACT_APP_BACKEND_ADDRESS** should also be 5001, e.g.
+For instance, if your **SERVER_PORT** is 5001, the port in your **REACT_APP_BACKEND_ADDRESS** should also be 5001:
 
 ```
 SERVER_PORT=5001
 REACT_APP_BACKEND_ADDRESS=http://192.168.50.213:5001
 ```
 
-The same goes for the frontend part, e.g.
-
-
+The same goes for the frontend part:
 ```
 FRONTEND_PORT=3000
 ORIGIN=http://127.0.0.1:3000
 REMOTE_ORIGIN=http://192.168.50.213:3000
 ```
 
+### Accessing the Application
+Based on that .env file, you should navigate to http://127.0.0.1:3000 on your browser. This is where the application should be hosted if the specified port (3000) is not taken by another process on your machine.
 
+#### Mongoose Connection String Components
+Please note that the following are all a part of the ```MONGOOSE_CONNECTION_STRING```:
 
+- MONGO_AUTH_ADMIN_USERNAME
+- MONGO_AUTH_ADMIN_PASSWORD
+- REMOTE_ORIGIN (excluding the port associated with it)
+
+Based on these configurations, you should navigate to ```http://127.0.0.1:3000``` on your browser. This is where the application should be hosted if the specified port(3000) is not taken by another process on your machine.
 
