@@ -30,6 +30,33 @@
 
 ## Project Architecture
 ## Project Structure
+The project is separated in two modules - frontend and backend.
+
+### Frontend Module
+The frontend is built with React and accompanying libraries such as react-bootstrap for responsive and mobile-first design. React-toastify was utilized to provide UI for the real-time notifications upon a websocket event.
+
+#### Components
+The frontend consists of eight React functional components: 
+1. **CreatePostField** 
+2. **Error** 
+3. **Home** 
+4. **Login**
+5. **Register** 
+6. **Navbar** 
+7. **Post** 
+8. **Profile**
+
+#### Higher-Order Components and the Authentication System
+The project also features two HOCs - ```withAuth``` and ```withGuest```. 
+They are used to implement authentication guards for pages such as the profile page, which is only accessible for registered users.
+
+#### Custom React Hook
+Finally, the frontend utilizes a custom React hook called ```UseAuth```. It fetches the
+```/user/isRegistered``` endpoint, whose response depends on whether the requesting user
+is logged in or not. 
+```UseAuth``` is used in the two higher-order components and in the
+Home, Navbar, and Post components for conditional rendering
+
 ```
 ├── COMP.SEC.300-Presentation.pdf
 ├── README.md
