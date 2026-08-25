@@ -1,5 +1,5 @@
 # Secure Social Media Web Application
-This project delivers a secure full stack social media web application built with security in mind. It implements core social media functionality, such as real-time notifications, user authentication, post creation and deletion, liking, and commenting.
+This project delivers a full stack social media web application built with security-first design principles in mind. It implements core social media functionality, such as real-time notifications, user authentication, post creation and deletion, liking, and commenting.
 
 The project centered on vulnerability assessment and white-box penetration testing, resulting in three vulnerabilities identified, exploited, and remediated.
 
