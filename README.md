@@ -301,35 +301,37 @@ The project tree structure can be seen below:
 ```
 ## Secure Programming Solutions
 
-
 OWASP TOP 10 has been used as a checklist throughout the entire project.
+
 Here are some secure programming solutions that I implemented:
 
-IP-Based rate limiters using `express-rate-limit` were implemented for all backend endpoints, preventing brute force and DoS attacks.
+- **IP-Based rate limiters** using `express-rate-limit` were implemented for all backend endpoints, preventing brute force and DoS attacks.
 
-The user passwords are stored as `bcrypt` hashes with a cost factor of 10.
+- **Password hashing:** The user passwords are stored as `bcrypt` hashes with a cost factor of 10.
 
-Input sanitization and validation is applied using `mongo-sanitize` to sanitize the incoming request body and regex is utilized to validate whether a password or username is valid before it is sent to the backend.
+- **Input sanitization and validation:** Applied using `mongo-sanitize` to sanitize the incoming request body and regex is utilized to validate whether a password or username is valid before it is sent to the backend.
 
-Server-side sessions were utilized to manage user sessions, minimizing the risk of session hijacking, compared to client-stored sessions. The session cookies are `httpOnly` and `sameSite`, minimizing the risk of CSRF attacks and cookie stealing using JavaScript.
+- **Server-side sessions:** Were utilized to manage user sessions, minimizing the risk of session hijacking, compared to client-stored sessions. The session cookies are `httpOnly` and `sameSite`, minimizing the risk of CSRF attacks and cookie stealing using JavaScript.
 
-CORS rules are were implemented to prevent possible CSRF attacks.
+CORS rules were implemented to prevent possible CSRF attacks.
+
 ## Vulnerability Assessment
 
-A vulnerability assessment was carried out, using the following tools:
+The vulnerability assessment was performed with the following tools:
 
-`Tenable Nessus` for automated vulnerability scanning
+1. **Tenable Nessus** for automated vulnerability scanning of the web application
+2. **Trivy** for vulnerability scanning the Dockerfile-created images
+3. **Snyk** for finding vulnerabilities in the project's dependencies
+4. **Metasploit** was utilized to search databases of vulnerability exploits in regards to the dependencies of the project
+5. **npm audit** was executed to find vulnerabilities within the package.json dependencies
 
-`Trivy` for scanning the docker images used in the project
+No vulnerabilities were found with Tenable Nessus except for a warning about a missing or permissive http header is a potential attack vector. Nessus also successfully enumerated the MongoDB version, allowing verification against known CVE databases. ExploitDB and Metasploit searches for known MongoDB exploits returned no matches.
 
-`Snyk` for scanning for dependency vulnerabilities
+However, a single tool cannot be trusted by itself to find or rule out vulnerabilities, as false positives and false negatives exist—thus, more scanning and research were needed.
 
-`Metasploit` for searching vulnerability records for project dependency vulnerabilities
-
-`npm audit` for scanning the package.json dependencies for vulnerabilities
+GitHub's Dependabot was also set up for continuous vulnerability and secret monitoring in the repository.
 
 More detail about the vulnerability assessment can be found in the report.
-
 
 ## Penetration Test
 A local-network, white-box penetration test was carried out, using the following tools:
