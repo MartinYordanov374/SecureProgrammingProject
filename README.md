@@ -16,8 +16,13 @@
 10. [Getting Started](#Getting-Started)
 
 ## The motivation behind the project
-I invested months building a solid cybersecurity foundation leading up to this project - university courses, online certifications, and HackTheBox Academy. During the **Secure Programming** course at **Tampere University**, I had the perfect opportunity to apply all of that knowledge to my own project. As a result, I earned a great grade while putting the theory into practice.
+I invested months building a solid cybersecurity foundation leading up to this project - university courses, online certifications, and HackTheBox Academy. During the **Secure Programming (COMP.SEC.300)** course at **Tampere University**, I had the perfect opportunity to apply all of that knowledge to my own project. As a result, I earned a great grade while putting the theory into practice.
 ## What I strived to achieve and learn through this project
+- Apply cyber security concepts from university and on-the-side courses to a production-like web application.
+- Use OWASP Top 10 as a reference point in the development process.
+- Gain hands-on experience with vulnerability assessment tools (Nessus, Trivy, Snyk).
+- Understand penetration testing methodology in white-box scenarios.
+- Solidify the gained knowledge by a hands-on approach.
 ## Project Features
 ### Application Functionality
 - User registration and authentication
@@ -35,7 +40,7 @@ I invested months building a solid cybersecurity foundation leading up to this p
 - MongoDB authentication enforcement
 - NoSQL injection prevention (mongo-sanitize)
 - Environment variable protection (.gitignore)
-- Dependency vulnerability scanning (npm audit, Dependabot, Snyk, Trivy)
+- Third-party dependencies vulnerability scanning (npm audit, Dependabot, Snyk, Trivy)
 
 ## Tech Stack
 
