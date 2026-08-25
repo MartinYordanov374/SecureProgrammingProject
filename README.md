@@ -159,9 +159,8 @@ The project tree structure can be seen below:
 ```
 ## Secure Programming Solutions
 
+
 OWASP TOP 10 has been used as a checklist throughout the entire project.
-
-
 Here are some secure programming solutions that I implemented:
 
 IP-Based rate limiters using `express-rate-limit` were implemented for all backend endpoints, preventing brute force and DoS attacks.
@@ -173,6 +172,8 @@ Input sanitization and validation is applied using `mongo-sanitize` to sanitize 
 Server-side sessions were utilized to manage user sessions, minimizing the risk of session hijacking, compared to client-stored sessions. The session cookies are `httpOnly` and `sameSite`, minimizing the risk of CSRF attacks and cookie stealing using JavaScript.
 
 CORS rules are were implemented to prevent possible CSRF attacks.
+
+<img width="779" height="459" alt="canvas" src="https://github.com/user-attachments/assets/420ad549-9193-4eb1-9c95-f04adc7d4d43" />
 
 ## Vulnerability Assessment
 
