@@ -1,28 +1,39 @@
-# Secure Programming Project
+# Secure Social Media Web Application
+This project delivers a secure full stack social media web application built with security in mind. It implements core social media functionality, such as real-time notifications, user authentication, post creation and deletion, liking, and commenting.
 
+The project centered on vulnerability assessment and white-box penetration testing, resulting in three vulnerabilities identified, exploited, and remediated.
 
+## Tech Stack
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![NodeJS](https://img.shields.io/badge/node.js-%236DA55F.svg?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Sass](https://img.shields.io/badge/sass-%23CC6699.svg?style=for-the-badge&logo=sass&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ## Table of Contents
 
 1. [The motivation behind the project](#The-motivation-behind-the-project)
 2. [What I strived to achieve and learn through this project](#What-I-strived-to-achieve-and-learn-through-this-project)
 3. [Project Features](#Project-Features)
-4. [Tech Stack](#Tech-Stack)
-5. [Project Architecture](#Project-Architecture)
-6. [Project Structure](#Project-Structure)
-7. [Secure Programming Solutions](#Secure-Programming-Solutions)
-8. [Vulnerability Assessment](#Vulnerability-Assessment)
-9. [Penetration Test](#Penetration-Test)
-10. [Getting Started](#Getting-Started)
+4. [Project Architecture](#Project-Architecture)
+5. [Project Structure](#Project-Structure)
+6. [Secure Programming Solutions](#Secure-Programming-Solutions)
+7. [Vulnerability Assessment](#Vulnerability-Assessment)
+8. [Penetration Test](#Penetration-Test)
+9. [Getting Started](#Getting-Started)
 
 ## The motivation behind the project
 I invested months building a solid cybersecurity foundation leading up to this project - university courses, online certifications, and HackTheBox Academy. During the **Secure Programming (COMP.SEC.300)** course at **Tampere University**, I had the perfect opportunity to apply all of that knowledge to my own project. As a result, I earned a great grade while putting the theory into practice.
+
 ## What I strived to achieve and learn through this project
 - Apply cyber security concepts from university and on-the-side courses to a production-like web application.
 - Use OWASP Top 10 as a reference point in the development process.
 - Gain hands-on experience with vulnerability assessment tools (Nessus, Trivy, Snyk).
 - Understand penetration testing methodology in white-box scenarios.
 - Solidify the gained knowledge by a hands-on approach.
+
 ## Project Features
 ### Application Functionality
 - User registration and authentication
@@ -41,16 +52,6 @@ I invested months building a solid cybersecurity foundation leading up to this p
 - NoSQL injection prevention (mongo-sanitize)
 - Environment variable protection (.gitignore)
 - Third-party dependencies vulnerability scanning (npm audit, Dependabot, Snyk, Trivy)
-
-## Tech Stack
-
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![NodeJS](https://img.shields.io/badge/node.js-%236DA55F.svg?style=for-the-badge&logo=node.js&logoColor=white)
-![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
-![Sass](https://img.shields.io/badge/sass-%23CC6699.svg?style=for-the-badge&logo=sass&logoColor=white)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ## Project Architecture
 The core architecture consists of a Node.js and Express server, MongoDB with schemas for both a user and a post, two services - ```user``` and
