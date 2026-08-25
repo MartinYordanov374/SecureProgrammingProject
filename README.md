@@ -1,114 +1,35 @@
-# General information
-
-This is my project for the COMP.SEC.300(Secure programming) course at Tampere University. It represents a minimalistic web application with the basic CRUD functionality of a social media platform.
-
-Users can: 
-
-    Create & delete posts
-
-    like/remove like from posts
-
-    Write comments under specific posts
-    
-    Delete their own profiles
-
-## Technologies used
-
-The project is built with ReactJS for the front end and Node+Express for the backend with a mongo database. It is a classic MERN stack application. 
-
-For the design part, bootstrap was utilized to speed up the process and ensure a somewhat mobile-friendly responsive UI.
-
-Since the application is not hosted publicly anywhere, docker has been utilized to ensure cross-system comaptibility for the application.
-
-## Secure Programming Solutions
-
-OWASP TOP 10 has been used as a checklist throughout the entire project.
+# Secure Programming Project
 
 
-Here are some secure programming solutions that I implemented:
 
-IP-Based rate limiters using `express-rate-limit` were implemented for all backend endpoints, preventing brute force and DoS attacks.
+## Table of Contents
 
-The user passwords are stored as `bcrypt` hashes with a cost factor of 10.
+1. [The motivation behind the project](#The-motivation-behind-the-project)
+2. [What I strived to achieve and learn through this project](#What-I-strived-to-achieve-and-learn-through-this-project)
+3. [Project Features](#Project-Features)
+4. [Tech Stack](#Tech-Stack)
+5. [Project Architecture](#Project-Architecture)
+6. [Project Structure](#Project-Structure)
+7. [Secure Programming Solutions](#Secure-Programming-Solutions)
+8. [Vulnerability Assessment](#Vulnerability-Assessment)
+9. [Penetration Test](#Penetration-Test)
+10. [Getting Started](#Getting-Started)
 
-Input sanitization and validation is applied using `mongo-sanitize` to sanitize the incoming request body and regex is utilized to validate whether a password or username is valid before it is sent to the backend.
+## The motivation behind the project
+## What I strived to achieve and learn through this project
+## Project Features
+## Tech Stack
 
-Server-side sessions were utilized to manage user sessions, minimizing the risk of session hijacking, compared to client-stored sessions. The session cookies are `httpOnly` and `sameSite`, minimizing the risk of CSRF attacks and cookie stealing using JavaScript.
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![NodeJS](https://img.shields.io/badge/node.js-%236DA55F.svg?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Sass](https://img.shields.io/badge/sass-%23CC6699.svg?style=for-the-badge&logo=sass&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-CORS rules are were implemented to prevent possible CSRF attacks.
-
-## Vulnerability Assessment
-
-A vulnerability assessment was carried out, using the following tools:
-
-`Tenable Nessus` for automated vulnerability scanning
-
-`Trivy` for scanning the docker images used in the project
-
-`Snyk` for scanning for dependency vulnerabilities
-
-`Metasploit` for searching vulnerability records for project dependency vulnerabilities
-
-`npm audit` for scanning the package.json dependencies for vulnerabilities
-
-More detail about the vulnerability assessment can be found in the report.
-
-
-## Penetration Test
-A local-network, white-box penetration test was carried out, using the following tools:
-
-`nmap`
-`metasploit`
-`wireshark`
-`hashcat`
-`postman`
-
-The goal was to "Find and exploit vulnerabilities from the OWASP TOP 10 list with priority as well as any
-other vulnerability that may be discovered during the test." (this is from the report, you will find more details there)
-
-The vulnerabilities that were found and exploited(with one exception) were:
-
-**Unauthorized database access, leading to use account take over**
-
-**Data is transmitted over HTTP, leading to stolen user credentials**
-
-**NoSQL injection was found but I could not exploit that to gain access to sensitive information**
-
-The penetration test also focused on whether the following vulnerabilities are present in the application and none of them were found to be issues:
-
-`Brute force attacks`
-
-`XSS attacks`
-
-`Broken auth attacks`
-
-
-Note that all found vulnerabilities(with an available fix in case of dependency vulnerabilities) during the assessment and penetration testing stages were later remediated.
-
-
-Much more detail in regards to the whole process is found in the report.
-
-
-## Running the application
-
-Make sure that you have docker and docker compose installed before running that command. Also make sure that the docker daemon is running before executing the command!
-
-
-Open terminal in the directory you wish to cloen the project in and run:
-
-`git clone https://github.com/MartinYordanov374/SecureProgrammingProject.git`
-
-Then in the folder that was created after executing the above command, run this command:
-
-
-`docker-compose up --build`
-
-Navigate to the IPv4 address you specified for the **ORIGIN** or **REMOTE_ORIGIN** variable in the .env file on your browser with the port you specified for the frontend and explore the application. 
-
-## Instructions on how to run the application
-Note that your root folder is the folder which was created after you executed `git clone https://github.com/MartinYordanov374/SecureProgrammingProject.git` successfully.
-
-The structure should look like so:
+## Project Architecture
+## Project Structure
 ```
 ├── COMP.SEC.300-Presentation.pdf
 ├── README.md
@@ -182,7 +103,92 @@ The structure should look like so:
     ├── reportWebVitals.js
     └── setupTests.js
 ```
+## Secure Programming Solutions
 
+OWASP TOP 10 has been used as a checklist throughout the entire project.
+
+
+Here are some secure programming solutions that I implemented:
+
+IP-Based rate limiters using `express-rate-limit` were implemented for all backend endpoints, preventing brute force and DoS attacks.
+
+The user passwords are stored as `bcrypt` hashes with a cost factor of 10.
+
+Input sanitization and validation is applied using `mongo-sanitize` to sanitize the incoming request body and regex is utilized to validate whether a password or username is valid before it is sent to the backend.
+
+Server-side sessions were utilized to manage user sessions, minimizing the risk of session hijacking, compared to client-stored sessions. The session cookies are `httpOnly` and `sameSite`, minimizing the risk of CSRF attacks and cookie stealing using JavaScript.
+
+CORS rules are were implemented to prevent possible CSRF attacks.
+
+## Vulnerability Assessment
+
+A vulnerability assessment was carried out, using the following tools:
+
+`Tenable Nessus` for automated vulnerability scanning
+
+`Trivy` for scanning the docker images used in the project
+
+`Snyk` for scanning for dependency vulnerabilities
+
+`Metasploit` for searching vulnerability records for project dependency vulnerabilities
+
+`npm audit` for scanning the package.json dependencies for vulnerabilities
+
+More detail about the vulnerability assessment can be found in the report.
+
+
+## Penetration Test
+A local-network, white-box penetration test was carried out, using the following tools:
+
+`nmap`
+`metasploit`
+`wireshark`
+`hashcat`
+`postman`
+
+The goal was to "Find and exploit vulnerabilities from the OWASP TOP 10 list with priority as well as any
+other vulnerability that may be discovered during the test." (this is from the report, you will find more details there)
+
+The vulnerabilities that were found and exploited(with one exception) were:
+
+**Unauthorized database access, leading to use account take over**
+
+**Data is transmitted over HTTP, leading to stolen user credentials**
+
+**NoSQL injection was found but I could not exploit that to gain access to sensitive information**
+
+The penetration test also focused on whether the following vulnerabilities are present in the application and none of them were found to be issues:
+
+`Brute force attacks`
+
+`XSS attacks`
+
+`Broken auth attacks`
+
+
+Note that all found vulnerabilities(with an available fix in case of dependency vulnerabilities) during the assessment and penetration testing stages were later remediated.
+
+
+Much more detail in regards to the whole process is found in the report.
+
+
+## Getting Started
+
+Make sure that you have docker and docker compose installed before running that command. Also make sure that the docker daemon is running before executing the command!
+
+
+Open terminal in the directory you wish to cloen the project in and run:
+
+`git clone https://github.com/MartinYordanov374/SecureProgrammingProject.git`
+
+Then in the folder that was created after executing the above command, run this command:
+
+
+`docker-compose up --build`
+
+Navigate to the IPv4 address you specified for the **ORIGIN** or **REMOTE_ORIGIN** variable in the .env file on your browser with the port you specified for the frontend and explore the application. 
+
+Note that your root folder is the folder which was created after you executed `git clone https://github.com/MartinYordanov374/SecureProgrammingProject.git` successfully.
 
 Create a .env file in the root folder with the following variables.
 
@@ -285,11 +291,6 @@ FRONTEND_PORT=3000
 ORIGIN=http://127.0.0.1:3000
 REMOTE_ORIGIN=http://192.168.50.213:3000
 ```
-
-I hope that this is clear enough. 
-
-If the course staff runs into any issues while attempting to run the project, contact me at martin.yordanov@tuni.fi 
-
 
 
 
