@@ -410,7 +410,7 @@ MONGO_AUTH_ADMIN_USERNAME=admin
 MONGO_AUTH_ADMIN_PASSWORD=samplepassword
 MONGOOSE_CONNECTION_STRING=mongodb://admin:samplepassword@192.168.50.213:27017/seprodb?authSource=admin
 ```
-#### Finding Your IP Address
+### Finding Your IP Address
 You can obtain your ```REMOTE_ORIGIN``` address by executing ipconfig in CMD if you are using Windows or ifconfig if you are using a common Linux distribution or OSX.
 
 It should be your "inet" address on Mac for the "en0" interface. Same for the most common Linux distributions.
@@ -427,12 +427,12 @@ You can obtain your REMOTE_ORIGIN address by executing `ipconfig` in CMD if you 
 
 Use that same address for ```REACT_APP_BACKEND_ADDRESS```, ```REMOTE_ORIGIN``` and ```MONGOOSE_CONNECTION_STRING``` in the .env file.
 
-#### Important Notes
+### Important Notes
 - Make sure to access the application in your browser on the address specified in ```ORIGIN``` in the .env file, otherwise CORS issues would arise.
 - In case you have an issue with the some of the ports, try changing them.
 - Please note that ```ORIGIN``` and ```REMOTE_ORIGIN``` exist because during the testing, virtual machines as well as other physical devices owned entirely by the author of the project were utilized as to mimic a real-world scenario as best as I could, hence the **origin** and **remote origin** variables.
 
-#### Port Consistency
+### Port Consistency
 Please also note that in case of changing the port values for SERVER_PORT and FRONTEND_PORT variables in the .env, you have to also be changing the port variables for the following .env file variables:
 
 - REACT_APP_BACKEND_ADDRESS
