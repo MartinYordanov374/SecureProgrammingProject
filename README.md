@@ -59,10 +59,6 @@ The core architecture consists of a Node.js and Express server, MongoDB with sch
 
 <img width="718" height="725" alt="canvas" src="https://github.com/user-attachments/assets/2895d071-a58f-44dc-bb5e-922b16afdb60" />
 
-
-The diagram below shows the API and Authentication flow of the application.
-<img width="1700" height="989" alt="Screenshot From 2026-08-25 10-00-16" src="https://github.com/user-attachments/assets/940cde32-56ca-4d6d-87c1-4b20296ad4bb" />
-
 ### Database
 #### The User Schema
 The user schema is composed of only two string fields - username and password. Both of which
@@ -184,6 +180,12 @@ Docker has been utilized in this project to ensure cross-platform compatibility 
 Docker Hub is regularly updated with the latest releases of MongoDB and Node images, which are the only images used in this project. When building the project with Docker Compose, all images utilized will be of the latest version compared to the version utilized at the time of building the project.
 
 Docker Compose simplifies running and building the project. Additionally, all containers created with Docker Compose are automatically created on the same Docker network, making it easier to implement communication between containers without writing local IP addresses (or public IPs in the case of deploying the app). Docker Compose services' names must be used instead.
+
+The diagram below shows the API and Security flow of the application. 
+
+<img width="1700" height="989" alt="Screenshot From 2026-08-25 10-00-16" src="https://github.com/user-attachments/assets/940cde32-56ca-4d6d-87c1-4b20296ad4bb" />
+
+That diagram was useful for identifying a vulnerability that led to a NoSQl Injection attack during the ```Penetration Test```. 
 
 ## Project Structure
 The project is separated in two modules - frontend and backend.
