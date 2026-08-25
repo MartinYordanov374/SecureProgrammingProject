@@ -60,7 +60,7 @@ Home, Navbar, and Post components for conditional rendering
 #### Dockerfile
 The frontend includes a Dockerfile to build a Docker image and run a container, ensuring cross-platform operability of the project.
 
-### Backend
+### Backend Module
 The backend directory contains the following files and sub-directories:
 
 1. **Dockerfile** — Defines the Docker image for deployment.
